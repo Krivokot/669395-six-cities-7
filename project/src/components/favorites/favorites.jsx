@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 function Favorites() {
 
-
   return (
-<div className="page">
+    <div className="page">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -69,7 +67,7 @@ function Favorites() {
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style="width: 100%"></span>
+                          <span style={{width: 100}}></span>
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
@@ -101,7 +99,7 @@ function Favorites() {
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style="width: 80%"></span>
+                          <span style={{width: 80}}></span>
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
@@ -144,7 +142,7 @@ function Favorites() {
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style="width: 100%"></span>
+                          <span style={{width: 100}}></span>
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
