@@ -109,12 +109,7 @@ function Main(props) {
 
 Main.propTypes = {
   citiesCardsListLength: PropTypes.number.isRequired,
-  citiesCardsList: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string,
-    }),
-  ).isRequired,
+  citiesCardsList: PropTypes.array.isRequired,
 };
 
 export default Main;

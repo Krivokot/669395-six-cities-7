@@ -41,10 +41,22 @@ function App(props) {
 
 App.propTypes = {
   citiesCardsListLength: PropTypes.number.isRequired,
-  citiesCardsList: PropTypes.arrayOf(
+  citiesCardsList: PropTypes.array.isRequired,
+  offers: PropTypes.arrayOf(
     PropTypes.shape({
+      bedrooms: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      goods: PropTypes.array,
       id: PropTypes.number.isRequired,
-      title: PropTypes.string,
+      image: PropTypes.array,
+      is_favorite: PropTypes.bool.isRequired,
+      is_premium: PropTypes.bool.isRequired,
+      max_adults: PropTypes.number.isRequired,
+      preview_image: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      rating: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
     }),
   ).isRequired,
 };
