@@ -10,7 +10,7 @@ import NotFound from '../404/404';
 
 
 function App(props) {
-  const {citiesCardsList, citiesCardsListLength} = props;
+  const {citiesCardsList, citiesCardsListLength, offers} = props;
 
   return (
     <BrowserRouter>
@@ -19,6 +19,7 @@ function App(props) {
           <Main
             citiesCardsListLength = {citiesCardsListLength}
             citiesCardsList = {citiesCardsList}
+            offers = {offers}
           />
         </Route>
         <Route path={AppRoute.ROOM} exact>

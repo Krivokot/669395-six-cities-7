@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
+import offers from './mocks/offers';
+import reviews from './mocks/reviews';
 
 const cardsArray = [1, 2, 3, 4, 5];
 
@@ -14,6 +16,7 @@ ReactDOM.render(
     <App
       citiesCardsListLength = {Setting.PLACES_COUNT}
       citiesCardsList = {Setting.CARDS_COUNT}
+      offers = {offers}
     />
   </React.StrictMode>,
   document.getElementById('root'),
