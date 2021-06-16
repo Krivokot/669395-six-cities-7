@@ -10,23 +10,25 @@ import NotFound from '../404/404';
 
 
 function App(props) {
-  const {citiesCardsList, citiesCardsListLength, offers} = props;
+  const {offers} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route path={AppRoute.MAIN} exact>
           <Main
-            citiesCardsListLength = {citiesCardsListLength}
-            citiesCardsList = {citiesCardsList}
             offers = {offers}
           />
         </Route>
         <Route path={AppRoute.ROOM} exact>
-          <Room />
+          <Room
+ 
+          />
         </Route>
         <Route path={AppRoute.FAVORITES} exact>
-          <Favorites />
+          <Favorites 
+            offers = {offers}
+          />
         </Route>
         <Route path={AppRoute.SIGN_IN} exact>
           <Login />
@@ -40,8 +42,6 @@ function App(props) {
 }
 
 App.propTypes = {
-  citiesCardsListLength: PropTypes.number.isRequired,
-  citiesCardsList: PropTypes.array.isRequired,
   offers: PropTypes.arrayOf(
     PropTypes.shape({
       bedrooms: PropTypes.number.isRequired,
@@ -49,10 +49,10 @@ App.propTypes = {
       goods: PropTypes.array,
       id: PropTypes.number.isRequired,
       image: PropTypes.array,
-      is_favorite: PropTypes.bool.isRequired,
-      is_premium: PropTypes.bool.isRequired,
-      max_adults: PropTypes.number.isRequired,
-      preview_image: PropTypes.string.isRequired,
+      isFavorite: PropTypes.bool,
+      isPremium: PropTypes.bool.isRequired,
+      maxAdults: PropTypes.number.isRequired,
+      previewImage: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,
       rating: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,

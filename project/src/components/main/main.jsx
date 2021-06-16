@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CityCard from '../card/city-card';
+import OffersList from '../main/offers-list';
 
 function Main(props) {
-  const {citiesCardsListLength, citiesCardsList = []} = props;
+  const {offers = []} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -77,7 +77,7 @@ function Main(props) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{citiesCardsListLength} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0">
@@ -93,9 +93,9 @@ function Main(props) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {citiesCardsList.map((cityCard) => <CityCard key={cityCard} />)}
-              </div>
+              <OffersList 
+                offers = {offers} 
+              />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
@@ -108,8 +108,23 @@ function Main(props) {
 }
 
 Main.propTypes = {
-  citiesCardsListLength: PropTypes.number.isRequired,
-  citiesCardsList: PropTypes.array.isRequired,
+  offers: PropTypes.arrayOf(
+    PropTypes.shape({
+      bedrooms: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      goods: PropTypes.array,
+      id: PropTypes.number.isRequired,
+      image: PropTypes.array,
+      isFavorite: PropTypes.bool,
+      isPremium: PropTypes.bool.isRequired,
+      maxAdults: PropTypes.number.isRequired,
+      previewImage: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      rating: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Main;

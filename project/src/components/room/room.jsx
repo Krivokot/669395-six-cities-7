@@ -1,6 +1,8 @@
 import React from 'react';
 
-function Room() {
+function Room(props) {
+  const {offer} = props;
+  console.log(offer);
 
   return (
     <div className="page">
