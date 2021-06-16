@@ -8,4 +8,5 @@ export const AppRoute = {
 export const CardTypes = {
   FAVORITES: 'favorites',
   MAIN: 'main',
+  ROOM: 'room',
 };

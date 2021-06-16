@@ -22,11 +22,12 @@ function App(props) {
         </Route>
         <Route path={AppRoute.ROOM} exact>
           <Room
- 
+            offer = {offers[1]}
+            offers = {offers}
           />
         </Route>
         <Route path={AppRoute.FAVORITES} exact>
-          <Favorites 
+          <Favorites
             offers = {offers}
           />
         </Route>

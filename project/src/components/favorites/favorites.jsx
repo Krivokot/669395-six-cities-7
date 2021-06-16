@@ -1,6 +1,7 @@
 import React from 'react';
 import CityCard from '../card/city-card';
-import {CardTypes} from '../../const'
+import {CardTypes} from '../../const';
+import PropTypes from 'prop-types';
 
 function Favorites(props) {
   const {offers} = props;
@@ -49,14 +50,13 @@ function Favorites(props) {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {offers.map((offer) => 
-                  offer.isFavorite ?
-                  <CityCard 
-                    offer={offer}
-                    cardType = {CardTypes.FAVORITES}
-                  />
-                  : ''
-                  )}
+                  {offers.map((offer) =>
+                    offer.isFavorite ?
+                      <CityCard
+                        offer={offer}
+                        cardType = {CardTypes.FAVORITES}
+                      />
+                      : '')}
                 </div>
               </li>
 
@@ -69,14 +69,13 @@ function Favorites(props) {
                   </div>
                 </div>
                 <div className="favorites__places">
-                {offers.map((offer) => 
-                  offer.isFavorite ?
-                  <CityCard 
-                    offer={offer}
-                    cardType = {CardTypes.FAVORITES}
-                  />
-                  : ''
-                  )}
+                  {offers.map((offer) =>
+                    offer.isFavorite ?
+                      <CityCard
+                        offer={offer}
+                        cardType = {CardTypes.FAVORITES}
+                      />
+                      : '')}
                 </div>
               </li>
             </ul>
@@ -91,6 +90,26 @@ function Favorites(props) {
     </div>
   );
 }
+
+Favorites.propTypes = {
+  offers: PropTypes.arrayOf(
+    PropTypes.shape({
+      bedrooms: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      goods: PropTypes.array,
+      id: PropTypes.number.isRequired,
+      image: PropTypes.array,
+      isFavorite: PropTypes.bool,
+      isPremium: PropTypes.bool.isRequired,
+      maxAdults: PropTypes.number.isRequired,
+      previewImage: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      rating: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};
 
 
 export default Favorites;

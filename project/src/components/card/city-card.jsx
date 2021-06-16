@@ -1,23 +1,21 @@
 import React from 'react';
-import {AppRoute, CardTypes} from '../../const'
+import {AppRoute, CardTypes} from '../../const';
 import { Link } from 'react-router-dom';
-import OffersList from '../main/offers-list';
+import PropTypes from 'prop-types';
 
 function CityCard(props) {
   const {offer, cardType} = props;
 
   return (
     <article className={cardType === CardTypes.MAIN ? 'cities__place-card place-card' : 'favorites__card place-card'}>
-      {offer.isPremium && cardType === CardTypes.MAIN ? 
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-      :
-      ''
-      }
+      {offer.isPremium && cardType === CardTypes.MAIN ?
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+        : ''}
       <div className ={cardType === CardTypes.MAIN ? 'cities__image-wrapper place-card__image-wrapper' : 'favorites__image-wrapper place-card__image-wrapper'}>
-        <a href="#">
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
+        <a>
+          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place" />
         </a>
       </div>
       <div className="place-card__info">
@@ -40,7 +38,7 @@ function CityCard(props) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to = {AppRoute.ROOM} offer={offer}>
+          <Link to = {AppRoute.ROOM} >
             {offer.title}
           </Link>
         </h2>
@@ -49,5 +47,26 @@ function CityCard(props) {
     </article>
   );
 }
+
+CityCard.propTypes = {
+  offer: PropTypes.arrayOf(
+    PropTypes.shape({
+      bedrooms: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      goods: PropTypes.array,
+      id: PropTypes.number.isRequired,
+      image: PropTypes.array,
+      isFavorite: PropTypes.bool,
+      isPremium: PropTypes.bool.isRequired,
+      maxAdults: PropTypes.number.isRequired,
+      previewImage: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      rating: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  cardType: PropTypes.string.isRequired,
+};
 
 export default CityCard;
