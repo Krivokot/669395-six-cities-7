@@ -4,3 +4,9 @@ export const AppRoute = {
   ROOM: '/offer/:id',
   MAIN: '/',
 };
+
+export const CardTypes = {
+  FAVORITES: 'favorites',
+  MAIN: 'main',
+  ROOM: 'room',
+};

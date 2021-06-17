@@ -10,22 +10,26 @@ import NotFound from '../404/404';
 
 
 function App(props) {
-  const {citiesCardsList, citiesCardsListLength} = props;
+  const {offers} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route path={AppRoute.MAIN} exact>
           <Main
-            citiesCardsListLength = {citiesCardsListLength}
-            citiesCardsList = {citiesCardsList}
+            offers = {offers}
           />
         </Route>
         <Route path={AppRoute.ROOM} exact>
-          <Room />
+          <Room
+            offer = {offers[1]}
+            offers = {offers}
+          />
         </Route>
         <Route path={AppRoute.FAVORITES} exact>
-          <Favorites />
+          <Favorites
+            offers = {offers}
+          />
         </Route>
         <Route path={AppRoute.SIGN_IN} exact>
           <Login />
@@ -39,11 +43,21 @@ function App(props) {
 }
 
 App.propTypes = {
-  citiesCardsListLength: PropTypes.number.isRequired,
-  citiesCardsList: PropTypes.arrayOf(
+  offers: PropTypes.arrayOf(
     PropTypes.shape({
+      bedrooms: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      goods: PropTypes.array,
       id: PropTypes.number.isRequired,
-      title: PropTypes.string,
+      image: PropTypes.array,
+      isFavorite: PropTypes.bool,
+      isPremium: PropTypes.bool.isRequired,
+      maxAdults: PropTypes.number.isRequired,
+      previewImage: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      rating: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
     }),
   ).isRequired,
 };
