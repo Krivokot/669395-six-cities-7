@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function CityCard(props) {
-  const {offer, cardType} = props;
+  const {offer, cardType, titleEnter} = props;
 
   return (
     <article className={cardType === CardTypes.MAIN ? 'cities__place-card place-card' : 'favorites__card place-card'}>
@@ -37,7 +37,7 @@ function CityCard(props) {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
+        <h2 className="place-card__name" onMouseEnter = {titleEnter}>
           <Link to = {AppRoute.ROOM} >
             {offer.title}
           </Link>
@@ -67,6 +67,7 @@ CityCard.propTypes = {
     }),
   ).isRequired,
   cardType: PropTypes.string.isRequired,
+  titleEnter: PropTypes.func.isRequired,
 };
 
 export default CityCard;

@@ -1,9 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../main/offers-list';
+import Map from '../map/map';
+
+const city = [52.38333, 4.9];
+const MAP_ZOOM = 12;
 
 function Main(props) {
   const {offers = []} = props;
+
+  const [selectedPoint, setSelectedPoint] = useState({});
+  const onListItemHover = (listItemName) => {
+    const currentPoint = offers.find((offer) =>
+      offer.title === listItemName,
+    );
+    setSelectedPoint(currentPoint);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -93,10 +105,18 @@ function Main(props) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers = {offers} />
+              <OffersList
+                offers = {offers}
+                onListItemHover={onListItemHover}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={city}
+                zoom={MAP_ZOOM}
+                points={offers}
+                selectedPoint={selectedPoint}
+              />
             </div>
           </div>
         </div>
