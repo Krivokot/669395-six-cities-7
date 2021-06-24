@@ -1,24 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import CityCard from '../card/city-card';
 import {CardTypes} from '../../const';
 import PropTypes from 'prop-types';
 
 function OffersList(props) {
-  const {offers} = props;
-  const [mouseMove, setCardIsActive] = useState({
-    mouseIn: false,
-    mouseOut: true,
-  });
+  const {offers, onListItemHover} = props;
 
-  const {mouseIn, mouseOut} = mouseMove;
+  const listItemHoverHandler = (evt) => {
+    onListItemHover(evt.target.innerText);
+  };
 
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer) => (
         <CityCard
-          key={offer}
+          key={`${offer.title}`}
           offer={offer}
           cardType = {CardTypes.MAIN}
+          titleEnter = {listItemHoverHandler}
         />
       ))}
     </div>
@@ -43,6 +42,7 @@ OffersList.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  onListItemHover: PropTypes.func.isRequired,
 };
 
 export default OffersList;
