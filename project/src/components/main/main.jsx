@@ -1,21 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../main/offers-list';
 import Map from '../map/map';
-
-const city = [52.38333, 4.9];
-const MAP_ZOOM = 12;
+import {CardTypes} from '../../const';
 
 function Main(props) {
-  const {offers = []} = props;
-
-  const [selectedPoint, setSelectedPoint] = useState({});
-  const onListItemHover = (listItemName) => {
-    const currentPoint = offers.find((offer) =>
-      offer.title === listItemName,
-    );
-    setSelectedPoint(currentPoint);
-  };
+  const {offers = [], city, zoom, selectedPoint, onListItemHover} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -23,21 +13,21 @@ function Main(props) {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
+              <a className="header__logo-link header__logo-link--active" href="img/logo.svg">
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <a className="header__nav-link header__nav-link--profile" href="img/logo.svg">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <a className="header__nav-link" href="img/logo.svg">
                     <span className="header__signout">Sign out</span>
                   </a>
                 </li>
@@ -53,32 +43,32 @@ function Main(props) {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="img/logo.svg">
                   <span>Paris</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="img/logo.svg">
                   <span>Cologne</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="img/logo.svg">
                   <span>Brussels</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
+                <a className="locations__item-link tabs__item tabs__item--active" href="img/logo.svg">
                   <span>Amsterdam</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="img/logo.svg">
                   <span>Hamburg</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="img/logo.svg">
                   <span>Dusseldorf</span>
                 </a>
               </li>
@@ -113,9 +103,10 @@ function Main(props) {
             <div className="cities__right-section">
               <Map
                 city={city}
-                zoom={MAP_ZOOM}
+                zoom={zoom}
                 points={offers}
                 selectedPoint={selectedPoint}
+                cardType = {CardTypes.MAIN}
               />
             </div>
           </div>
@@ -143,6 +134,10 @@ Main.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  city: PropTypes.array.isRequired,
+  zoom: PropTypes.number.isRequired,
+  selectedPoint: PropTypes.object.isRequired,
+  onListItemHover: PropTypes.func.isRequired,
 };
 
 export default Main;

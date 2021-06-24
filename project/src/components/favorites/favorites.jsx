@@ -19,14 +19,14 @@ function Favorites(props) {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <a className="header__nav-link header__nav-link--profile" href="img/logo.svg">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <a className="header__nav-link" href="img/logo.svg">
                     <span className="header__signout">Sign out</span>
                   </a>
                 </li>
@@ -44,7 +44,7 @@ function Favorites(props) {
               <li className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <a className="locations__item-link" href="#">
+                    <a className="locations__item-link" href="img/logo.svg">
                       <span>Amsterdam</span>
                     </a>
                   </div>
@@ -63,7 +63,7 @@ function Favorites(props) {
               <li className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <a className="locations__item-link" href="#">
+                    <a className="locations__item-link" href="img/logo.svg">
                       <span>Cologne</span>
                     </a>
                   </div>
