@@ -4,9 +4,11 @@ import {CardTypes} from '../../const';
 import CityCard from '../card/city-card';
 import Comments from '../comments/comments';
 import PropTypes from 'prop-types';
+import ReviewsList from '../reviews-list/reviews-list';
+import Map from '../map/map';
 
 function Room(props) {
-  const {offer, offers} = props;
+  const {offer, offers, reviews, city, zoom, selectedPoint, onListItemHover} = props;
 
   return (
     <div className="page">
@@ -21,14 +23,14 @@ function Room(props) {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <a className="header__nav-link header__nav-link--profile" href="img/logo.svg">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <a className="header__nav-link" href="img/logo.svg">
                     <span className="header__signout">Sign out</span>
                   </a>
                 </li>
@@ -43,22 +45,22 @@ function Room(props) {
           <div className="property__gallery-container container">
             <div className="property__gallery">
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio" />
+                <img className="property__image" src="img/room.jpg" alt="Studio" />
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
+                <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio" />
+                <img className="property__image" src="img/apartment-02.jpg" alt="Studio" />
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio" />
+                <img className="property__image" src="img/apartment-03.jpg" alt="Studio" />
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio" />
+                <img className="property__image" src="img/studio-01.jpg" alt="Studio" />
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
+                <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
               </div>
             </div>
           </div>
@@ -138,35 +140,20 @@ function Room(props) {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
-                      </div>
-                      <span className="reviews__user-name">
-                        Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: 80}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
+                <ReviewsList
+                  reviews = {reviews}
+                />
                 <Comments />
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <Map
+            city={city}
+            zoom={zoom}
+            points={offers}
+            selectedPoint={selectedPoint}
+            cardType = {CardTypes.ROOM}
+          />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -177,6 +164,7 @@ function Room(props) {
                   key={nearestOffer}
                   offer={nearestOffer}
                   cardType = {CardTypes.ROOM}
+                  onListItemHover={onListItemHover}
                 />
               ))}
             </div>
@@ -192,7 +180,7 @@ Room.propTypes = {
     PropTypes.shape({
       bedrooms: PropTypes.number.isRequired,
       description: PropTypes.string.isRequired,
-      goods: PropTypes.array,
+      goods: PropTypes.array.isRequired,
       id: PropTypes.number.isRequired,
       image: PropTypes.array,
       host: PropTypes.shape({
@@ -213,7 +201,7 @@ Room.propTypes = {
     PropTypes.shape({
       bedrooms: PropTypes.number.isRequired,
       description: PropTypes.string.isRequired,
-      goods: PropTypes.array,
+      goods: PropTypes.array.isRequired,
       id: PropTypes.number.isRequired,
       image: PropTypes.array,
       host: PropTypes.shape({
@@ -230,6 +218,11 @@ Room.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  reviews: PropTypes.object.isRequired,
+  city: PropTypes.array.isRequired,
+  zoom: PropTypes.number.isRequired,
+  selectedPoint: PropTypes.object.isRequired,
+  onListItemHover: PropTypes.func.isRequired,
 };
 
 export default Room;

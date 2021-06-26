@@ -4,9 +4,10 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/map/useMap';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 import PropTypes from 'prop-types';
+import {CardTypes} from '../../const';
 
 function Map(props) {
-  const {city, zoom, points, selectedPoint} = props;
+  const {city, zoom, points, selectedPoint, cardType} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city, zoom);
 
@@ -38,12 +39,12 @@ function Map(props) {
           .addTo(map);
       });
     }
-  }, [map, points]);
+  }, [selectedPoint, map, points, currentCustomIcon, defaultCustomIcon]);
 
   return (
     <section
-      className="cities__map map"
-      style={{height: '100vh'}}
+      className={cardType === CardTypes.MAIN ? 'cities__map map' : 'property__map map'}
+      // style={{height: '100vh'}}
       ref={mapRef}
     >
 
@@ -65,6 +66,7 @@ Map.propTypes = {
   selectedPoint: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }).isRequired,
+  cardType: PropTypes.object.isRequired,
 };
 
 export default Map;

@@ -14,7 +14,7 @@ function CityCard(props) {
         </div>
         : ''}
       <div className ={cardType === CardTypes.MAIN ? 'cities__image-wrapper place-card__image-wrapper' : 'favorites__image-wrapper place-card__image-wrapper'}>
-        <a>
+        <a href="img/apartment-01.jpg">
           <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place" />
         </a>
       </div>
