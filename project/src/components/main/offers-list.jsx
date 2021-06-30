@@ -44,6 +44,7 @@ OffersList.propTypes = {
     }),
   ).isRequired,
   onListItemHover: PropTypes.func.isRequired,
+  city: PropTypes.object.isRequired,
 };
 
 export default OffersList;

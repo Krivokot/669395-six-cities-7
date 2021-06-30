@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function CityCard(props) {
-  const {offer, cardType, titleEnter, city} = props;
+  const {offer, cardType, titleEnter} = props;
 
   return (
     <article className={cardType === CardTypes.MAIN ? 'cities__place-card place-card' : 'favorites__card place-card'}>

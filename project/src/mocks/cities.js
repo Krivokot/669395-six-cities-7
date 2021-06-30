@@ -30,4 +30,5 @@ const cities = [
     'longitude': 6.783333,
   },
 ];
-    export default cities;
+
+export default cities;

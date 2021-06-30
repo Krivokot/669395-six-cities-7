@@ -42,24 +42,23 @@ function Main(props) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-        <section className="locations container">
-          <ul className="locations__list tabs__list">
-            {cities.map((city) => (
-              <>
-                <li className="locations__item">
-                  <a
-                  className={activeCity.name === city.name ? 'locations__item-link tabs__item--active' : 'locations__item-link tabs__item'}
-                  onClick={() =>
-                    onChangeCity(city)
-                    }
-                  >
-                    <span>{city.name}</span>
-                  </a>
-                </li>
-              </>
-            ))}
-          </ul>
-        </section>
+          <section className="locations container">
+            <ul className="locations__list tabs__list">
+              {cities.map((city) => (
+                <>
+                  <li className="locations__item">
+                    <a
+                      className={activeCity.name === city.name ? 'locations__item-link tabs__item--active' : 'locations__item-link tabs__item'}
+                      onClick={() =>
+                        onChangeCity(city)}
+                    >
+                      <span>{city.name}</span>
+                    </a>
+                  </li>
+                </>
+              ))}
+            </ul>
+          </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -121,10 +120,13 @@ Main.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  city: PropTypes.object,
   zoom: PropTypes.number.isRequired,
   selectedPoint: PropTypes.object.isRequired,
   onListItemHover: PropTypes.func.isRequired,
+  activeCity: PropTypes.object,
+  cities: PropTypes.array.isRequired,
+  onChangeCity: PropTypes.func,
+  onFilterOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

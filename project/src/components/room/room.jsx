@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
 import Advantages from './advantages';
 import {CardTypes} from '../../const';
@@ -13,7 +13,7 @@ import {ActionCreator} from '../../store/action';
 function Room(props) {
   const {offer, offers, reviews, city, zoom, selectedPoint, onListItemHover} = props;
 
-  const {id} = useParams(offer.id);
+  // const {id} = useParams(offer.id);
 
   // useEffect((id) => {
   //   const offer = offers.filter(offerItem => offerItem.id === id);
@@ -174,7 +174,7 @@ function Room(props) {
             <div className="near-places__list places__list">
               {offers.map((nearestOffer) => (
                 <CityCard
-                key={`${nearestOffer.title}`}
+                  key={`${nearestOffer.title}`}
                   offer={nearestOffer}
                   cardType = {CardTypes.ROOM}
                   onListItemHover={onListItemHover}

@@ -81,6 +81,7 @@ App.propTypes = {
       rating: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  cities: PropTypes.array.isRequired,
 };
 
 export default App;

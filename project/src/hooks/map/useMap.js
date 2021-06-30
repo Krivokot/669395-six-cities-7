@@ -30,7 +30,7 @@ function useMap(mapRef, city, zoom) {
     } else {
       map.setView({lat: city.latitude, lng: city.longitude});
     }
-  }, [mapRef, city, map]);
+  }, [mapRef, city, map, zoom]);
 
   return map;
 }
