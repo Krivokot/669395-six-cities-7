@@ -4,7 +4,7 @@ import {CardTypes} from '../../const';
 import PropTypes from 'prop-types';
 
 function OffersList(props) {
-  const {offers, onListItemHover} = props;
+  const {offers, onListItemHover, city} = props;
 
   const listItemHoverHandler = (evt) => {
     onListItemHover(evt.target.innerText);
@@ -18,6 +18,7 @@ function OffersList(props) {
           offer={offer}
           cardType = {CardTypes.MAIN}
           titleEnter = {listItemHoverHandler}
+          city={city}
         />
       ))}
     </div>

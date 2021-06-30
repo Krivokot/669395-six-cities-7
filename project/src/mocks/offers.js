@@ -41,7 +41,7 @@ const offers = [
         'longitude': 'none',
         'zoom': 'none',
       },
-      'name': 'Amsterdam',
+      'name': 'Paris',
     },
     'description': 'Commodo Lorem excepteur exercitation ex quis occaecat non nostrud fugiat reprehenderit proident anim exercitation. Dolor veniam sint nostrud tempor dolore esse nulla nisi reprehenderit. Excepteur tempor do deserunt quis. Cupidatat ut tempor minim excepteur Lorem pariatur ullamco. Duis commodo eiusmod occaecat eu tempor sunt dolore occaecat elit.',
     'goods': ['Heating', 'Washing machine', 'Dishwasher'],

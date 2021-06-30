@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function CityCard(props) {
-  const {offer, cardType, titleEnter} = props;
+  const {offer, cardType, titleEnter, city} = props;
 
   return (
     <article className={cardType === CardTypes.MAIN ? 'cities__place-card place-card' : 'favorites__card place-card'}>
@@ -38,7 +38,7 @@ function CityCard(props) {
           </div>
         </div>
         <h2 className="place-card__name" onMouseEnter = {titleEnter}>
-          <Link to = {AppRoute.ROOM} >
+          <Link to = {AppRoute.ROOM} city={city}>
             {offer.title}
           </Link>
         </h2>

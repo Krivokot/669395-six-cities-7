@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import OffersList from '../main/offers-list';
 import Map from '../map/map';
 import {CardTypes} from '../../const';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
 
 function Main(props) {
-  const {offers = [], city, zoom, selectedPoint, onListItemHover} = props;
+  const {offers, zoom, selectedPoint, onListItemHover, activeCity, cities, onChangeCity, onFilterOffers} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -40,46 +42,30 @@ function Main(props) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="img/logo.svg">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="img/logo.svg">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="img/logo.svg">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="img/logo.svg">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="img/logo.svg">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="img/logo.svg">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+        <section className="locations container">
+          <ul className="locations__list tabs__list">
+            {cities.map((city) => (
+              <>
+                <li className="locations__item">
+                  <a
+                  className={activeCity.name === city.name ? 'locations__item-link tabs__item--active' : 'locations__item-link tabs__item'}
+                  onClick={() =>
+                    onChangeCity(city)
+                    }
+                  >
+                    <span>{city.name}</span>
+                  </a>
+                </li>
+              </>
+            ))}
+          </ul>
+        </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {activeCity.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0">
@@ -98,11 +84,12 @@ function Main(props) {
               <OffersList
                 offers = {offers}
                 onListItemHover={onListItemHover}
+                city={activeCity}
               />
             </section>
             <div className="cities__right-section">
               <Map
-                city={city}
+                city={activeCity}
                 zoom={zoom}
                 points={offers}
                 selectedPoint={selectedPoint}
@@ -140,4 +127,19 @@ Main.propTypes = {
   onListItemHover: PropTypes.func.isRequired,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  offers: state.filteredOffers,
+  activeCity: state.activeCity,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onChangeCity(city) {
+    dispatch(ActionCreator.changeCity(city));
+  },
+  onFilterOffers(city) {
+    dispatch(ActionCreator.loadOffers(city));
+  },
+});
+
+export {Main};
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
