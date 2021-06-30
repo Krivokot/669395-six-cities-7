@@ -38,7 +38,7 @@ function CityCard(props) {
           </div>
         </div>
         <h2 className="place-card__name" onMouseEnter = {titleEnter}>
-          <Link to = {AppRoute.ROOM} city={city}>
+          <Link to = {AppRoute.ROOM}>
             {offer.title}
           </Link>
         </h2>
@@ -49,25 +49,9 @@ function CityCard(props) {
 }
 
 CityCard.propTypes = {
-  offer: PropTypes.arrayOf(
-    PropTypes.shape({
-      bedrooms: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      goods: PropTypes.array,
-      id: PropTypes.number.isRequired,
-      image: PropTypes.array,
-      isFavorite: PropTypes.bool,
-      isPremium: PropTypes.bool.isRequired,
-      maxAdults: PropTypes.number.isRequired,
-      previewImage: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  offer: PropTypes.object.isRequired,
   cardType: PropTypes.string.isRequired,
-  titleEnter: PropTypes.func.isRequired,
+  titleEnter: PropTypes.func,
 };
 
 export default CityCard;

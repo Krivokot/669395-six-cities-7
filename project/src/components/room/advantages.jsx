@@ -12,11 +12,7 @@ function Advantages(props) {
 }
 
 Advantages.propTypes = {
-  advantage: PropTypes.arrayOf(
-    PropTypes.shape({
-      goods: PropTypes.array,
-    }),
-  ).isRequired,
+  advantage: PropTypes.string.isRequired,
 };
 
 export default Advantages;

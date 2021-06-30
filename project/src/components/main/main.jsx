@@ -121,7 +121,7 @@ Main.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  city: PropTypes.array.isRequired,
+  city: PropTypes.object,
   zoom: PropTypes.number.isRequired,
   selectedPoint: PropTypes.object.isRequired,
   onListItemHover: PropTypes.func.isRequired,
@@ -135,9 +135,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(city) {
     dispatch(ActionCreator.changeCity(city));
-  },
-  onFilterOffers(city) {
-    dispatch(ActionCreator.loadOffers(city));
   },
 });
 

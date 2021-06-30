@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import { useParams } from 'react-router';
 import Advantages from './advantages';
 import {CardTypes} from '../../const';
 import CityCard from '../card/city-card';
@@ -6,9 +7,19 @@ import Comments from '../comments/comments';
 import PropTypes from 'prop-types';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
 
 function Room(props) {
   const {offer, offers, reviews, city, zoom, selectedPoint, onListItemHover} = props;
+
+  const {id} = useParams(offer.id);
+
+  // useEffect((id) => {
+  //   const offer = offers.filter(offerItem => offerItem.id === id);
+
+  //   return offer;
+  // }, [id])
 
   return (
     <div className="page">
@@ -16,9 +27,11 @@ function Room(props) {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+
+              <a className="header__logo-link">
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
+
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
@@ -161,7 +174,7 @@ function Room(props) {
             <div className="near-places__list places__list">
               {offers.map((nearestOffer) => (
                 <CityCard
-                  key={nearestOffer}
+                key={`${nearestOffer.title}`}
                   offer={nearestOffer}
                   cardType = {CardTypes.ROOM}
                   onListItemHover={onListItemHover}
@@ -176,27 +189,7 @@ function Room(props) {
 }
 
 Room.propTypes = {
-  offer: PropTypes.arrayOf(
-    PropTypes.shape({
-      bedrooms: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      goods: PropTypes.array.isRequired,
-      id: PropTypes.number.isRequired,
-      image: PropTypes.array,
-      host: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        isPro: PropTypes.bool.isRequired,
-      }),
-      isFavorite: PropTypes.bool,
-      isPremium: PropTypes.bool.isRequired,
-      maxAdults: PropTypes.number.isRequired,
-      previewImage: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  offer: PropTypes.object.isRequired,
   offers: PropTypes.arrayOf(
     PropTypes.shape({
       bedrooms: PropTypes.number.isRequired,
@@ -218,11 +211,22 @@ Room.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  reviews: PropTypes.object.isRequired,
-  city: PropTypes.array.isRequired,
+  reviews: PropTypes.array.isRequired,
+  city: PropTypes.object.isRequired,
   zoom: PropTypes.number.isRequired,
   selectedPoint: PropTypes.object.isRequired,
   onListItemHover: PropTypes.func.isRequired,
 };
 
-export default Room;
+const mapStateToProps = (state) => ({
+  city: state.activeCity,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onChangeCity(city) {
+    dispatch(ActionCreator.changeCity(city));
+  },
+});
+
+export {Room};
+export default connect(mapStateToProps, mapDispatchToProps)(Room);

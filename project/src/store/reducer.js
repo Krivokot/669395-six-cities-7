@@ -5,7 +5,7 @@ import {ActionType} from './action';
 
 const initialState = {
   activeCity: cities[0],
-  filteredOffers: offers.filter(offer => offer.city.name === 'Paris')
+  filteredOffers: offers.filter(offer => offer.city.name === 'Paris'),
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +14,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         activeCity: action.payload,
+        filteredOffers: offers.filter(offer => offer.city.name === action.payload.name),
       };
     case ActionType.LOAD_OFFERS:
       return {
