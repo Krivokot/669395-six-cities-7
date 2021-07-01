@@ -2,17 +2,14 @@ import React, {useState} from 'react';
 import Main from '../main/main';
 import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute, MAP_ZOOM} from '../../const';
 import Login from '../login/login';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import NotFound from '../404/404';
 
-const city = [52.38333, 4.9];
-const MAP_ZOOM = 12;
-
 function App(props) {
-  const {offers, reviews} = props;
+  const {offers, reviews, cities} = props;
 
   const [selectedPoint, setSelectedPoint] = useState({});
   const onListItemHover = (listItemName) => {
@@ -28,10 +25,10 @@ function App(props) {
         <Route path={AppRoute.MAIN} exact>
           <Main
             offers = {offers}
-            city = {city}
             zoom = {MAP_ZOOM}
             selectedPoint = {selectedPoint}
             onListItemHover = {onListItemHover}
+            cities = {cities}
           />
         </Route>
         <Route path={AppRoute.ROOM} exact>
@@ -39,7 +36,6 @@ function App(props) {
             offer = {offers[1]}
             offers = {offers}
             reviews = {reviews}
-            city = {city}
             zoom = {MAP_ZOOM}
             selectedPoint = {selectedPoint}
             onListItemHover = {onListItemHover}
@@ -85,6 +81,7 @@ App.propTypes = {
       rating: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  cities: PropTypes.array.isRequired,
 };
 
 export default App;

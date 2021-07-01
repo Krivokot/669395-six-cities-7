@@ -53,7 +53,7 @@ function Map(props) {
 }
 
 Map.propTypes = {
-  city: PropTypes.array.isRequired,
+  city: PropTypes.object.isRequired,
   zoom: PropTypes.number.isRequired,
   points: PropTypes.arrayOf(
     PropTypes.shape({
@@ -64,9 +64,9 @@ Map.propTypes = {
     }),
   ).isRequired,
   selectedPoint: PropTypes.shape({
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
   }).isRequired,
-  cardType: PropTypes.object.isRequired,
+  cardType: PropTypes.string.isRequired,
 };
 
 export default Map;
