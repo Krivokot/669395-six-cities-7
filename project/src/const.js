@@ -11,6 +11,13 @@ export const CardTypes = {
   ROOM: 'room',
 };
 
+export const SortTypes = {
+  POPULAR: 'popular',
+  LOW_PRICE: 'lowPrice',
+  HIGH_PRICE: 'highPrice',
+  TOP_RATED: 'topRated',
+};
+
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';
