@@ -56,8 +56,8 @@ const offers = [
     'isFavorite': false,
     'isPremium': false,
     'location': {
-      'latitude': 52.369553943508,
-      'longitude': 4.85309666406198,
+      'latitude': 48.864716,
+      'longitude': 2.349019,
       'zoom': 'none',
     },
     'maxAdults': 1,
