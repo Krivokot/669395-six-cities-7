@@ -10,7 +10,7 @@ import Sort from '../sort/sort';
 function Main(props) {
   const {offers, zoom, selectedPoint, onListItemHover, activeCity, cities, onChangeCity, sortType} = props;
 
-  switch (sortType) {
+  switch (sortType) { // TODO вынести сортировку в функцию
     case SortTypes.LOW_PRICE:
       offers.sort((a,b) => a.price - b.price);
       break;
@@ -20,7 +20,7 @@ function Main(props) {
     case SortTypes.TOP_RATED:
       offers.sort((a,b) => b.rating - a.rating);
       break;
-    default:
+    default: //FIXME не работает popular
       break;
   }
 
