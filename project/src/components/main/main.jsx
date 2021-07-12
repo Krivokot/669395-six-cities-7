@@ -24,6 +24,27 @@ function Main(props) {
       break;
   }
 
+  switch (activeCity.name) {
+    case 'Paris':
+      offers.filter((offer) => offer.city.name === 'Paris');
+      break;
+    case 'Cologne':
+      offers.filter((offer) => offer.city.name === 'Cologne');
+      break;
+    case 'Brussels':
+      offers.filter((offer) => offer.city.name === 'Brussels');
+      break;
+    case 'Amsterdam':
+      offers.filter((offer) => offer.city.name === 'Amsterdam');
+      break;
+    case 'Hamburg':
+      offers.filter((offer) => offer.city.name === 'Hamburg');
+      break;
+    case 'Dusseldorf':
+      offers.filter((offer) => offer.city.name === 'Dusseldorf');
+      break;
+  }
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
