@@ -1,15 +1,26 @@
 import React, {useState} from 'react';
 import Main from '../main/main';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {AppRoute, MAP_ZOOM} from '../../const';
 import Login from '../login/login';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import NotFound from '../404/404';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {isCheckedAuth} from '../../auth';
 
 function App(props) {
   const {offers, reviews, cities} = props;
+
+  const {authorizationStatus, isDataLoaded} = props;
+
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   const [selectedPoint, setSelectedPoint] = useState({});
   const onListItemHover = (listItemName) => {
@@ -82,6 +93,15 @@ App.propTypes = {
     }),
   ).isRequired,
   cities: PropTypes.array.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  authorizationStatus: state.authorizationStatus,
+  isDataLoaded: state.isDataLoaded,
+});
+
+export {App};
+export default connect(mapStateToProps, null)(App);
