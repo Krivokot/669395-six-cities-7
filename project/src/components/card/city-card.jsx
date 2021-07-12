@@ -1,6 +1,7 @@
 import React from 'react';
 import {AppRoute, CardTypes} from '../../const';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function CityCard(props) {
   const {offer, cardType, titleEnter} = props;
