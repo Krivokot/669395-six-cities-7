@@ -1,6 +1,5 @@
 import React from 'react';
 import {AppRoute, CardTypes} from '../../const';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function CityCard(props) {
@@ -8,14 +7,14 @@ function CityCard(props) {
 
   return (
     <article className={cardType === CardTypes.MAIN ? 'cities__place-card place-card' : 'favorites__card place-card'}>
-      {offer.isPremium && cardType === CardTypes.MAIN ?
+      {offer.is_premium && cardType === CardTypes.MAIN ?
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
         : ''}
       <div className ={cardType === CardTypes.MAIN ? 'cities__image-wrapper place-card__image-wrapper' : 'favorites__image-wrapper place-card__image-wrapper'}>
         <a href="img/apartment-01.jpg">
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place" />
+          <img className="place-card__image" src={offer.preview_image} width="260" height="200" alt="Place" />
         </a>
       </div>
       <div className="place-card__info">

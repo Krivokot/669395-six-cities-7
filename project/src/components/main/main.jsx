@@ -6,42 +6,24 @@ import {CardTypes, SortTypes} from '../../const';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import Sort from '../sort/sort';
+import {filterObjects} from '../../util';
 
 function Main(props) {
   const {offers, zoom, selectedPoint, onListItemHover, activeCity, cities, onChangeCity, sortType} = props;
 
-  switch (sortType) { // TODO вынести сортировку в функцию
+  const filteredOffers = filterObjects(offers, activeCity.name);
+
+  switch (sortType) {
     case SortTypes.LOW_PRICE:
-      offers.sort((a,b) => a.price - b.price);
+      filteredOffers.sort((a,b) => a.price - b.price);
       break;
     case SortTypes.HIGH_PRICE:
-      offers.sort((a,b) => b.price - a.price);
+      filteredOffers.sort((a,b) => b.price - a.price);
       break;
     case SortTypes.TOP_RATED:
-      offers.sort((a,b) => b.rating - a.rating);
+      filteredOffers.sort((a,b) => b.rating - a.rating);
       break;
     default: //FIXME не работает popular
-      break;
-  }
-
-  switch (activeCity.name) {
-    case 'Paris':
-      offers.filter((offer) => offer.city.name === 'Paris');
-      break;
-    case 'Cologne':
-      offers.filter((offer) => offer.city.name === 'Cologne');
-      break;
-    case 'Brussels':
-      offers.filter((offer) => offer.city.name === 'Brussels');
-      break;
-    case 'Amsterdam':
-      offers.filter((offer) => offer.city.name === 'Amsterdam');
-      break;
-    case 'Hamburg':
-      offers.filter((offer) => offer.city.name === 'Hamburg');
-      break;
-    case 'Dusseldorf':
-      offers.filter((offer) => offer.city.name === 'Dusseldorf');
       break;
   }
 
@@ -100,10 +82,10 @@ function Main(props) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {activeCity.name}</b>
+              <b className="places__found">{filteredOffers.length} places to stay in {activeCity.name}</b>
               <Sort />
               <OffersList
-                offers = {offers}
+                offers = {filteredOffers}
                 onListItemHover={onListItemHover}
                 city={activeCity}
               />
@@ -112,7 +94,7 @@ function Main(props) {
               <Map
                 city={activeCity}
                 zoom={zoom}
-                points={offers}
+                points={filteredOffers}
                 selectedPoint={selectedPoint}
                 cardType = {CardTypes.MAIN}
               />
