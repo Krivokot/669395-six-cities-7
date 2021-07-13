@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../main/offers-list';
 import Map from '../map/map';
-import {CardTypes, SortTypes} from '../../const';
+import {CardTypes, SortTypes, AuthorizationStatus, AppRoute} from '../../const';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import Sort from '../sort/sort';
 import {filterObjects} from '../../util';
+import { Link } from 'react-router-dom';
+import {logout} from '../../store/api-actions';
 
 function Main(props) {
-  const {offers, zoom, selectedPoint, onListItemHover, activeCity, cities, onChangeCity, sortType} = props;
+  const {offers, zoom, selectedPoint, onListItemHover, activeCity, cities, onChangeCity, sortType, authorizationStatus, onClickSignOut} = props;
 
   const filteredOffers = filterObjects(offers, activeCity.name);
 
@@ -23,7 +25,7 @@ function Main(props) {
     case SortTypes.TOP_RATED:
       filteredOffers.sort((a,b) => b.rating - a.rating);
       break;
-    default: //FIXME не работает popular
+    default:
       break;
   }
 
@@ -40,16 +42,25 @@ function Main(props) {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="img/logo.svg">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
+                  <Link to={AppRoute.FAVORITES}>
+                    {authorizationStatus === AuthorizationStatus.AUTH ?
+                      <a className="header__nav-link header__nav-link--profile" href="img/logo.svg">
+                        <div className="header__avatar-wrapper user__avatar-wrapper">
+                        </div>
+                        <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      </a> : ''}
+                  </Link>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="img/logo.svg">
-                    <span className="header__signout">Sign out</span>
-                  </a>
+                  <Link to={AppRoute.SIGN_IN}>
+                    {authorizationStatus === AuthorizationStatus.AUTH ?
+                      <a className="header__nav-link" href="img/logo.svg" onClick={() => onClickSignOut()}>
+                        <span className="header__signout">Sign out</span>
+                      </a> :
+                      <a className="header__nav-link" href="img/logo.svg">
+                        <span className="header__signout">Sign in</span>
+                      </a>}
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -63,17 +74,15 @@ function Main(props) {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               {cities.map((city) => (
-                <>
-                  <li className="locations__item">
-                    <a
-                      className={activeCity.name === city.name ? 'locations__item-link tabs__item--active' : 'locations__item-link tabs__item'}
-                      onClick={() =>
-                        onChangeCity(city)}
-                    >
-                      <span>{city.name}</span>
-                    </a>
-                  </li>
-                </>
+                <li className="locations__item">
+                  <a
+                    className={activeCity.name === city.name ? 'locations__item-link tabs__item--active' : 'locations__item-link tabs__item'}
+                    onClick={() =>
+                      onChangeCity(city)}
+                  >
+                    <span>{city.name}</span>
+                  </a>
+                </li>
               ))}
             </ul>
           </section>
@@ -131,17 +140,23 @@ Main.propTypes = {
   cities: PropTypes.array.isRequired,
   onChangeCity: PropTypes.func,
   sortType: PropTypes.string.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  onClickSignOut: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.offers,
   activeCity: state.activeCity,
   sortType: state.sortType,
+  authorizationStatus: state.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(city) {
     dispatch(ActionCreator.changeCity(city));
+  },
+  onClickSignOut() {
+    dispatch(logout());
   },
 });
 

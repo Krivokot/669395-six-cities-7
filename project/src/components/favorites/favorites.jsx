@@ -51,7 +51,7 @@ function Favorites(props) {
                 </div>
                 <div className="favorites__places">
                   {offers.map((offer) =>
-                    offer.isFavorite ?
+                    offer.is_favorite ?
                       <CityCard
                         offer={offer}
                         cardType = {CardTypes.FAVORITES}
@@ -70,7 +70,7 @@ function Favorites(props) {
                 </div>
                 <div className="favorites__places">
                   {offers.map((offer) =>
-                    offer.isFavorite ?
+                    offer.is_favorite ?
                       <CityCard
                         offer={offer}
                         cardType = {CardTypes.FAVORITES}
