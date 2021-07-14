@@ -10,6 +10,7 @@ import Room from '../room/room';
 import NotFound from '../404/404';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {isCheckedAuth} from '../../auth';
+import PrivateRoute from '../private-route/private-route';
 
 function App(props) {
   const {offers, reviews, cities} = props;
@@ -52,11 +53,8 @@ function App(props) {
             onListItemHover = {onListItemHover}
           />
         </Route>
-        <Route path={AppRoute.FAVORITES} exact>
-          <Favorites
-            offers = {offers}
-          />
-        </Route>
+        <PrivateRoute path={AppRoute.FAVORITES} exact render={() => <Favorites offers = {offers}/>}>
+        </PrivateRoute>
         <Route path={AppRoute.SIGN_IN} exact>
           <Login />
         </Route>
