@@ -45,7 +45,6 @@ function App(props) {
         </Route>
         <Route path={AppRoute.ROOM} exact>
           <Room
-            offer = {offers[1]}
             offers = {offers}
             reviews = {reviews}
             zoom = {MAP_ZOOM}

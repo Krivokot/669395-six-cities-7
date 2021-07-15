@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState, useEffect} from 'react';
 import { useParams } from 'react-router';
 import Advantages from './advantages';
 import {CardTypes} from '../../const';
@@ -9,17 +9,18 @@ import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
+import { useHistory } from 'react-router-dom';
+import {fetchOfferDetails} from '../../store/api-actions';
+
 
 function Room(props) {
-  const {offer, offers, reviews, city, zoom, selectedPoint, onListItemHover} = props;
+  const {offer, reviews, city, zoom, selectedPoint, onListItemHover} = props;
+  const history = useHistory();
+  const {id} = useParams();
 
-  // const {id} = useParams(offer.id);
+    fetchOfferDetails(id);
 
-  // useEffect((id) => {
-  //   const offer = offers.filter(offerItem => offerItem.id === id);
-
-  //   return offer;
-  // }, [id])
+  console.log(offer);
 
   return (
     <div className="page">
@@ -220,6 +221,7 @@ Room.propTypes = {
 
 const mapStateToProps = (state) => ({
   city: state.activeCity,
+  details: state.offer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
