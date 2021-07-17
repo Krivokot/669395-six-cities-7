@@ -3,10 +3,9 @@ import {AuthorizationStatus, APIRoute} from '../const';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
-    .then(({data}) => dispatch(ActionCreator.loadOffers(data)))
-);
+    .then(({data}) => dispatch(ActionCreator.loadOffers(data))));
 
-export const fetchOfferDetails = (id) => (
+export const fetchOfferDetails = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${id}`)
     .then(({data}) => dispatch(ActionCreator.loadDetails(data)))
 );
