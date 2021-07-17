@@ -14,17 +14,16 @@ import {fetchOfferDetails} from '../../store/api-actions';
 
 
 function Room(props) {
-  const {offer, reviews, city, zoom, selectedPoint, onListItemHover} = props;
+  const {offer, reviews, city, zoom, selectedPoint, onListItemHover, fetchOffer} = props;
   const history = useHistory();
   const {id} = useParams();
 
-  const getOffersDetails = () => {
-    fetchOfferDetails(id);
-  }
-
   useEffect(() => {
-    getOffersDetails();
+    console.log(2)
+    fetchOffer(id);
   }, [id])
+
+  console.log(11, offer)
 
   return (
     <div className="page">
@@ -84,15 +83,15 @@ function Room(props) {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {offer.isPremium ?
+              {/* {offer.isPremium ?
                 <div className="property__mark">
                   <span>Premium</span>
                 </div>
                 :
-                ''}
+                ''} */}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {offer.title}
+                  {/* {offer.title} */}
                 </h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
@@ -106,32 +105,32 @@ function Room(props) {
                   <span style={{width: 80}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{offer.rating}</span>
+                {/* <span className="property__rating-value rating__value">{offer.rating || ""}</span> */}
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {offer.type}
+                  {/* {offer.type} */}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {offer.bedrooms} Bedrooms
+                  {/* {offer.bedrooms} Bedrooms */}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {offer.maxAdults} adults
+                  {/* Max {offer.maxAdults} adults */}
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{offer.price}</b>
+                {/* <b className="property__price-value">&euro;{offer.price}</b>  */}
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {offer.goods.map((advantage) => (
+                  {/* {offer.goods.map((advantage) => (
                     <Advantages
                       key={advantage}
                       advantage={advantage}
                     />
-                  ))}
+                  ))} */}
                 </ul>
               </div>
               <div className="property__host">
@@ -141,50 +140,50 @@ function Room(props) {
                     <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {offer.host.name}
+                    {/* {offer.host.name} */}
                   </span>
                   <span className="property__user-status">
-                    {offer.host.isPro ? 'Pro' : ''}
+                    {/* {offer.host.isPro ? 'Pro' : ''} */}
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    {offer.description}
+                    {/* {offer.description} */}
                   </p>
                   <p className="property__text">
-                    {offer.description}
+                    {/* {offer.description} */}
                   </p>
                 </div>
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ReviewsList
+                {/* <ReviewsList
                   reviews = {reviews}
-                />
+                /> */}
                 <Comments />
               </section>
             </div>
           </div>
-          <Map
+          {/* <Map
             city={city}
             zoom={zoom}
             points={offers}
             selectedPoint={selectedPoint}
             cardType = {CardTypes.ROOM}
-          />
+          /> */}
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {offers.map((nearestOffer) => (
+              {/* {offers.map((nearestOffer) => (
                 <CityCard
                   key={`${nearestOffer.title}`}
                   offer={nearestOffer}
                   cardType = {CardTypes.ROOM}
                   onListItemHover={onListItemHover}
                 />
-              ))}
+              ))} */}
             </div>
           </section>
         </div>
@@ -232,6 +231,9 @@ const mapDispatchToProps = (dispatch) => ({
   onChangeCity(city) {
     dispatch(ActionCreator.changeCity(city));
   },
+  fetchOffer(id) {
+    dispatch(fetchOfferDetails(id))
+  }
 });
 
 export {Room};
