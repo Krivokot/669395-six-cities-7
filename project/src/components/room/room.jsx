@@ -10,26 +10,21 @@ import Map from '../map/map';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import { useHistory } from 'react-router-dom';
-import {createAPI} from '../../services/api';
+import {fetchOfferDetails} from '../../store/api-actions';
 
 
 function Room(props) {
-  const {reviews, city, zoom, selectedPoint, onListItemHover} = props;
-  const [offer, setOfferDetails] = useState(null);
+  const {offer, reviews, city, zoom, selectedPoint, onListItemHover} = props;
   const history = useHistory();
   const {id} = useParams();
 
-  const fetchOfferDetails = (id) => (
-    createAPI.get(APIRoute.OFFERS)
-      .then(({data}) => setOfferDetails({data}))
-  );
+  const getOffersDetails = () => {
+    fetchOfferDetails(id);
+  }
 
   useEffect(() => {
-    fetchOfferDetails(id);
-
+    getOffersDetails();
   }, [id])
-
-  console.log(offer);
 
   return (
     <div className="page">
@@ -230,6 +225,7 @@ Room.propTypes = {
 
 const mapStateToProps = (state) => ({
   city: state.activeCity,
+  details: state.offer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
