@@ -6,7 +6,7 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(ActionCreator.loadOffers(data)))
 );
 
-export const fetchOfferDetails = (id) => (dispatch, _getState, api) => (
+export const fetchOfferDetails = (id) => (
   api.get(`${APIRoute.OFFERS}/${id}`)
     .then(({data}) => dispatch(ActionCreator.loadDetails(data)))
 );
