@@ -15,6 +15,8 @@ import PrivateRoute from '../private-route/private-route';
 function App(props) {
   const {offers, reviews, cities} = props;
 
+  const [selectedPoint, setSelectedPoint] = useState({});
+
   const {authorizationStatus, isDataLoaded} = props;
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
@@ -23,7 +25,6 @@ function App(props) {
     );
   }
 
-  const [selectedPoint, setSelectedPoint] = useState({});
   const onListItemHover = (listItemName) => {
     const currentPoint = offers.find((offer) =>
       offer.title === listItemName,
@@ -43,7 +44,7 @@ function App(props) {
             cities = {cities}
           />
         </Route>
-        <Route path={AppRoute.ROOM} exact>
+        <Route path={'/offer/:id'} exact>
           <Room
             offers = {offers}
             reviews = {reviews}

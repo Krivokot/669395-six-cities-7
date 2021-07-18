@@ -14,16 +14,12 @@ import {fetchOfferDetails} from '../../store/api-actions';
 
 
 function Room(props) {
-  const {offer, reviews, city, zoom, selectedPoint, onListItemHover} = props;
+  const {offer, reviews, city, zoom, selectedPoint, onListItemHover, fetchOffer} = props;
   const history = useHistory();
   const {id} = useParams();
 
-  const getOffersDetails = () => {
-    fetchOfferDetails(id);
-  }
-
   useEffect(() => {
-    getOffersDetails();
+    fetchOffer(id);
   }, [id])
 
   return (
@@ -84,7 +80,7 @@ function Room(props) {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {offer.isPremium ?
+              {offer.is_premium ?
                 <div className="property__mark">
                   <span>Premium</span>
                 </div>
@@ -126,31 +122,28 @@ function Room(props) {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {offer.goods.map((advantage) => (
-                    <Advantages
-                      key={advantage}
-                      advantage={advantage}
-                    />
-                  ))}
+                  {/* {offer.goods.map((advantage) => (
+                    // <Advantages
+                    //   key={advantage}
+                    //   advantage={advantage}
+                    // />
+                  ))} */}
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src='' width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {offer.host.name}
+                    {/* {offer.host.name} */}
                   </span>
                   <span className="property__user-status">
-                    {offer.host.isPro ? 'Pro' : ''}
+                    {/* {offer.host.is_pro ? 'Pro' : ''} */}
                   </span>
                 </div>
                 <div className="property__description">
-                  <p className="property__text">
-                    {offer.description}
-                  </p>
                   <p className="property__text">
                     {offer.description}
                   </p>
@@ -165,25 +158,25 @@ function Room(props) {
               </section>
             </div>
           </div>
-          <Map
+          {/* <Map
             city={city}
             zoom={zoom}
             points={offers}
             selectedPoint={selectedPoint}
             cardType = {CardTypes.ROOM}
-          />
+          /> */}
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {offers.map((nearestOffer) => (
+              {/* {offers.map((nearestOffer) => (
                 <CityCard
                   key={`${nearestOffer.title}`}
                   offer={nearestOffer}
                   cardType = {CardTypes.ROOM}
                   onListItemHover={onListItemHover}
-                />
+                /> */}
               ))}
             </div>
           </section>
@@ -195,27 +188,6 @@ function Room(props) {
 
 Room.propTypes = {
   offer: PropTypes.object.isRequired,
-  offers: PropTypes.arrayOf(
-    PropTypes.shape({
-      bedrooms: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      goods: PropTypes.array.isRequired,
-      id: PropTypes.number.isRequired,
-      image: PropTypes.array,
-      host: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        isPro: PropTypes.bool.isRequired,
-      }),
-      isFavorite: PropTypes.bool,
-      isPremium: PropTypes.bool.isRequired,
-      maxAdults: PropTypes.number.isRequired,
-      previewImage: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
   reviews: PropTypes.array.isRequired,
   city: PropTypes.object.isRequired,
   zoom: PropTypes.number.isRequired,
@@ -225,13 +197,16 @@ Room.propTypes = {
 
 const mapStateToProps = (state) => ({
   city: state.activeCity,
-  details: state.offer,
+  offer: state.details,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(city) {
     dispatch(ActionCreator.changeCity(city));
   },
+  fetchOffer(id) {
+    dispatch(fetchOfferDetails(id))
+  }
 });
 
 export {Room};
