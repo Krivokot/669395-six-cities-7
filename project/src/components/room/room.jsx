@@ -1,7 +1,7 @@
-import {React, useState, useEffect} from 'react';
+import {React, useEffect} from 'react';
 import { useParams } from 'react-router';
 import Advantages from './advantages';
-import {CardTypes} from '../../const';
+import {CardTypes, AuthorizationStatus} from '../../const';
 import CityCard from '../card/city-card';
 import Comments from '../comments/comments';
 import PropTypes from 'prop-types';
@@ -10,16 +10,28 @@ import Map from '../map/map';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import { useHistory } from 'react-router-dom';
-import {fetchOfferDetails} from '../../store/api-actions';
+import {fetchOfferDetails, fetchOfferNearby, fetchReviewsList} from '../../store/api-actions';
+import RoomImages from './room-images';
+
+//FIXME при переходе через урл, карта не меняется
+//FIXME случается, что подсвечивается selectedPoint
+//FIXME глючит на вложенных объектах
+//TODO сделать рэйтинг 
+//FIXME плывет верстка в местах поблизости
+//TODO чистить редакс при переходе по страницам
+//TODO сделать переход на 404 в случае несуществующего оффера
+//TODO добавить обработки ошибок
 
 
 function Room(props) {
-  const {offer, reviews, city, zoom, selectedPoint, onListItemHover, fetchOffer} = props;
+  const {offer, nearby, reviews, city, zoom, selectedPoint, onListItemHover, fetchOffer, fetchNearBy, fetchReviews, authorizationStatus} = props;
   const history = useHistory();
   const {id} = useParams();
 
   useEffect(() => {
     fetchOffer(id);
+    fetchNearBy(id);
+    fetchReviews(id);
   }, [id])
 
   return (
@@ -58,24 +70,13 @@ function Room(props) {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
-              </div>
+              {/* {offer.images.map((image) => (
+                <RoomImages  
+                  key = {image}
+                  image = {image}
+                  alt = {offer.type}
+                />
+              ))} */}
             </div>
           </div>
           <div className="property__container container">
@@ -123,10 +124,10 @@ function Room(props) {
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
                   {/* {offer.goods.map((advantage) => (
-                    // <Advantages
-                    //   key={advantage}
-                    //   advantage={advantage}
-                    // />
+                    <Advantages
+                      key={advantage}
+                      advantage={advantage}
+                    />
                   ))} */}
                 </ul>
               </div>
@@ -150,33 +151,36 @@ function Room(props) {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ReviewsList
                   reviews = {reviews}
                 />
-                <Comments />
+                {authorizationStatus === AuthorizationStatus.AUTH ?
+                  <Comments id = {id}/> :
+                  ''
+                }
               </section>
             </div>
           </div>
-          {/* <Map
+          <Map
             city={city}
             zoom={zoom}
-            points={offers}
+            points={nearby}
             selectedPoint={selectedPoint}
             cardType = {CardTypes.ROOM}
-          /> */}
+          />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {/* {offers.map((nearestOffer) => (
+              {nearby.map((nearestOffer) => (
                 <CityCard
                   key={`${nearestOffer.title}`}
                   offer={nearestOffer}
                   cardType = {CardTypes.ROOM}
                   onListItemHover={onListItemHover}
-                /> */}
+                />
               ))}
             </div>
           </section>
@@ -198,14 +202,20 @@ Room.propTypes = {
 const mapStateToProps = (state) => ({
   city: state.activeCity,
   offer: state.details,
+  authorizationStatus: state.authorizationStatus,
+  nearby: state.nearby,
+  reviews: state.reviews,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onChangeCity(city) {
-    dispatch(ActionCreator.changeCity(city));
-  },
   fetchOffer(id) {
     dispatch(fetchOfferDetails(id))
+  },
+  fetchNearBy(id) {
+    dispatch(fetchOfferNearby(id))
+  },
+  fetchReviews(id) {
+    dispatch(fetchReviewsList(id))
   }
 });
 

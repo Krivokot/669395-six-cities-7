@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../main/offers-list';
 import Map from '../map/map';
@@ -8,10 +8,16 @@ import {ActionCreator} from '../../store/action';
 import Sort from '../sort/sort';
 import {filterObjects} from '../../util';
 import { Link } from 'react-router-dom';
-import {logout} from '../../store/api-actions';
+import {logout, loadAuthInfo} from '../../store/api-actions';
+
+//TODO вынести шапку в компонент
+//FIXME запоминает только последний эмэил
+//FIXME падает на house among oilve
+//TODO сделать рэйтинг 
+//TODO сортировка не исчезает при выборе
 
 function Main(props) {
-  const {offers, zoom, selectedPoint, onListItemHover, activeCity, cities, onChangeCity, sortType, authorizationStatus, onClickSignOut} = props;
+  const {offers, zoom, authInfo, selectedPoint, onListItemHover, activeCity, cities, onChangeCity, sortType, authorizationStatus, onClickSignOut, fetchUserInfo} = props;
 
   const filteredOffers = filterObjects(offers, activeCity.name);
 
@@ -29,6 +35,10 @@ function Main(props) {
       break;
   }
 
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -44,10 +54,11 @@ function Main(props) {
                 <li className="header__nav-item user">
                   <Link to={AppRoute.FAVORITES}>
                     {authorizationStatus === AuthorizationStatus.AUTH ?
-                      <a className="header__nav-link header__nav-link--profile" href="img/logo.svg">
+                      <a className="header__nav-link header__nav-link--profile">
                         <div className="header__avatar-wrapper user__avatar-wrapper">
+                          <img src={authInfo.avatar_url} alt='User'/>
                         </div>
-                        <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                        <span className="header__user-name user__name">{authInfo.email}</span>
                       </a> : ''}
                   </Link>
                 </li>
@@ -115,7 +126,7 @@ function Main(props) {
   );
 }
 
-Main.propTypes = {
+Main.propTypes = { //TODO proptypes перенести в функцию
   offers: PropTypes.arrayOf(
     PropTypes.shape({
       bedrooms: PropTypes.number.isRequired,
@@ -149,6 +160,7 @@ const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
   sortType: state.sortType,
   authorizationStatus: state.authorizationStatus,
+  authInfo: state.authInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -157,6 +169,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onClickSignOut() {
     dispatch(logout());
+  },
+  fetchUserInfo() {
+    dispatch(loadAuthInfo());
   },
 });
 

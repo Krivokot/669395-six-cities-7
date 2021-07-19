@@ -1,12 +1,26 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
+import { sendComments } from '../../store/api-actions';
+import {connect} from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 
-function Comments() {
+function Comments({onSubmit}) {
 
-  const [commentValue, getCommentValueState] = useState(null);
+  // const [commentValue, getCommentValueState] = useState(null);
+  const {id} = useParams();
+  const commentRef = useRef();
+
+  const handleSubmitComment = (evt) => {
+    evt.preventDefault();
+
+    onSubmit({
+      comment: commentRef.current.value,
+      rating: 4,
+    }, id);
+  };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmitComment}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
@@ -44,7 +58,13 @@ function Comments() {
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" onChange={() => getCommentValueState} id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea 
+        ref={commentRef}
+        className="reviews__textarea form__textarea" 
+        id="review" name="review" 
+        placeholder="Tell how was your stay, what you like and what can be improved"
+      >
+      </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
@@ -55,4 +75,13 @@ function Comments() {
   );
 }
 
-export default Comments;
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(commentData, id) {
+    dispatch(sendComments(commentData, id));
+  },
+});
+
+
+export {Comments};
+export default connect(null, mapDispatchToProps)(Comments);
+

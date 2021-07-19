@@ -7,6 +7,8 @@ export const ActionType = {
   SORT_OFFERS: 'sortOffers',
   REQUIRED_AUTHORIZATION: 'requiredAuthorization',
   LOGOUT: 'logout',
+  LOAD_REVIEWS: 'loadReviews',
+  LOAD_USER_INFO: 'loadUserInfo'
 };
 
 export const ActionCreator = {
@@ -29,6 +31,14 @@ export const ActionCreator = {
   loadNearby: (nearbyOffers) => ({
     type: ActionType.LOAD_NEARBY,
     payload: nearbyOffers,
+  }),
+  loadReviews: (reviews) => ({
+    type: ActionType.LOAD_REVIEWS,
+    payload: reviews,
+  }),
+  loadAuthInfo: (userInfo) => ({
+    type: ActionType.LOAD_USER_INFO,
+    payload: userInfo,
   }),
   requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,

@@ -16,6 +16,11 @@ export const fetchOfferNearby = (id) => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(ActionCreator.loadNearby(data)))
 );
 
+export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.REVIEWS}/${id}`)
+    .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+);
+
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
@@ -26,6 +31,16 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
   api.post(APIRoute.LOGIN, {email, password})
     .then(({data}) => localStorage.setItem('token', data.token))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
+);
+
+export const sendComments = ({comment: comment, rating}, id) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.REVIEWS}/${id}`, {comment: comment, rating})
+  .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+);
+
+export const loadAuthInfo = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.LOGIN)
+    .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
 );
 
 export const logout = () => (dispatch, _getState, api) => (
