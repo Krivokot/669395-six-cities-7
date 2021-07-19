@@ -38,7 +38,7 @@ function CityCard(props) {
           </div>
         </div>
         <h2 className="place-card__name" onMouseEnter = {titleEnter}>
-          <Link to = {AppRoute.ROOM}>
+          <Link to = {`${AppRoute.ROOM}${offer.id}`}>
             {offer.title}
           </Link>
         </h2>
