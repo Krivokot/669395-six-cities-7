@@ -6,14 +6,14 @@ function RoomImages(props) {
 
   return (
     <div className="property__image-wrapper">
-        <img className="property__image" src={image} alt={alt} />
+      <img className="property__image" src={image} alt={alt} />
     </div>
   );
 }
 
 RoomImages.propTypes = {
-    image: PropTypes.string,
-    alt: PropTypes.string,
+  image: PropTypes.string,
+  alt: PropTypes.string,
 };
 
 export default RoomImages;

@@ -1,7 +1,8 @@
-import React, {useState, useRef} from 'react';
+import React, {useRef} from 'react';
 import { sendComments } from '../../store/api-actions';
 import {connect} from 'react-redux';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 
 function Comments({onSubmit}) {
@@ -57,12 +58,7 @@ function Comments({onSubmit}) {
           </svg>
         </label>
       </div>
-      <textarea 
-        ref={commentRef}
-        className="reviews__textarea form__textarea" 
-        id="review" name="review" 
-        placeholder="Tell how was your stay, what you like and what can be improved"
-      >
+      <textarea ref={commentRef} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved">
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -73,6 +69,10 @@ function Comments({onSubmit}) {
     </form>
   );
 }
+
+Comments.propTypes = {
+  onSubmit: PropTypes.func,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(commentData, id) {

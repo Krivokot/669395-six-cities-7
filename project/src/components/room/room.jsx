@@ -8,18 +8,17 @@ import PropTypes from 'prop-types';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import {connect} from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import {fetchOfferDetails, fetchOfferNearby, fetchReviewsList} from '../../store/api-actions';
 import RoomImages from './room-images';
 import Header from '../header/header';
-import {getOffers, getOfferNearby, getOfferDetails, getOfferReviews} from '../../store/offer-data/selectors';
+import {getOfferNearby, getOfferDetails, getOfferReviews} from '../../store/offer-data/selectors';
 import {getCity} from '../../store/view-settings/selectors';
 import {getAuthStatus} from '../../store/user/selectors';
 
 //FIXME при переходе через урл, карта не меняется
 //FIXME случается, что подсвечивается selectedPoint
 //FIXME глючит на вложенных объектах
-//TODO сделать рэйтинг 
+//TODO сделать рэйтинг
 //FIXME плывет верстка в местах поблизости
 //TODO чистить редакс при переходе по страницам
 //TODO сделать переход на 404 в случае несуществующего оффера
@@ -29,14 +28,14 @@ import {getAuthStatus} from '../../store/user/selectors';
 
 function Room(props) {
   const {offer, nearby, reviews, city, zoom, selectedPoint, onListItemHover, fetchOffer, fetchNearBy, fetchReviews, authorizationStatus} = props;
-  const history = useHistory();
+
   const {id} = useParams();
 
   useEffect(() => {
     fetchOffer(id);
     fetchNearBy(id);
     fetchReviews(id);
-  }, [id])
+  }, [id]);
 
   return (
     <div className="page">
@@ -47,7 +46,7 @@ function Room(props) {
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {/* {offer.images.map((image) => (
-                <RoomImages  
+                <RoomImages
                   key = {image}
                   image = {image}
                   alt = {offer.type}
@@ -132,9 +131,7 @@ function Room(props) {
                   reviews = {reviews}
                 />
                 {authorizationStatus === AuthorizationStatus.AUTH ?
-                  <Comments id = {id}/> :
-                  ''
-                }
+                  <Comments id = {id}/> : ''}
               </section>
             </div>
           </div>
@@ -173,6 +170,11 @@ Room.propTypes = {
   zoom: PropTypes.number.isRequired,
   selectedPoint: PropTypes.object.isRequired,
   onListItemHover: PropTypes.func.isRequired,
+  nearby: PropTypes.object,
+  fetchOffer: PropTypes.func,
+  fetchNearBy: PropTypes.func,
+  fetchReviews: PropTypes.func,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -185,14 +187,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchOffer(id) {
-    dispatch(fetchOfferDetails(id))
+    dispatch(fetchOfferDetails(id));
   },
   fetchNearBy(id) {
-    dispatch(fetchOfferNearby(id))
+    dispatch(fetchOfferNearby(id));
   },
   fetchReviews(id) {
-    dispatch(fetchReviewsList(id))
-  }
+    dispatch(fetchReviewsList(id));
+  },
 });
 
 export {Room};

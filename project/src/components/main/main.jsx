@@ -13,7 +13,7 @@ import {getCity, getSortType} from '../../store/view-settings/selectors';
 
 //FIXME запоминает только последний эмэил
 //FIXME падает на house among oilve
-//TODO сделать рэйтинг 
+//TODO сделать рэйтинг
 //TODO сортировка не исчезает при выборе
 
 function Main(props) {

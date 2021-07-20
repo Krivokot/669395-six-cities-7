@@ -8,7 +8,7 @@ export const ActionType = {
   REQUIRED_AUTHORIZATION: 'auth/requiredAuthorization',
   LOGOUT: 'auth/logout',
   LOAD_REVIEWS: 'details/loadReviews',
-  LOAD_USER_INFO: 'auth/loadUserInfo'
+  LOAD_USER_INFO: 'auth/loadUserInfo',
 };
 
 export const changeCity = (cityName) => ({

@@ -33,9 +33,9 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
 );
 
-export const sendComments = ({comment: comment, rating}, id) => (dispatch, _getState, api) => (
-  api.post(`${APIRoute.REVIEWS}/${id}`, {comment: comment, rating})
-  .then(({data}) => dispatch(loadReviews(data)))
+export const sendComments = ({comment, rating}, id) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.REVIEWS}/${id}`, {comment, rating})
+    .then(({data}) => dispatch(loadReviews(data)))
 );
 
 export const loadAuthInfo = () => (dispatch, _getState, api) => (
