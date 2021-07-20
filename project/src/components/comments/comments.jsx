@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 
 function Comments({onSubmit}) {
 
-  // const [commentValue, getCommentValueState] = useState(null);
   const {id} = useParams();
   const commentRef = useRef();
 

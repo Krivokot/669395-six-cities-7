@@ -1,50 +1,50 @@
-import {ActionCreator} from './action';
+import {loadOffers, loadDetails, loadNearby, loadReviews, requireAuthorization, loadUserInfo, logout} from './action';
 import {AuthorizationStatus, APIRoute} from '../const';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
-    .then(({data}) => dispatch(ActionCreator.loadOffers(data)))
+    .then(({data}) => dispatch(loadOffers(data)))
 );
 
 export const fetchOfferDetails = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${id}`)
-    .then(({data}) => dispatch(ActionCreator.loadDetails(data)))
+    .then(({data}) => dispatch(loadDetails(data)))
 );
 
 export const fetchOfferNearby = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${id}/nearby`)
-    .then(({data}) => dispatch(ActionCreator.loadNearby(data)))
+    .then(({data}) => dispatch(loadNearby(data)))
 );
 
 export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.REVIEWS}/${id}`)
-    .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+    .then(({data}) => dispatch(loadReviews(data)))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {})
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, {email, password})
     .then(({data}) => localStorage.setItem('token', data.token))
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
 );
 
 export const sendComments = ({comment: comment, rating}, id) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}/${id}`, {comment: comment, rating})
-  .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+  .then(({data}) => dispatch(loadReviews(data)))
 );
 
 export const loadAuthInfo = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
-    .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
+    .then(({data}) => dispatch(loadUserInfo(data)))
 );
 
-export const logout = () => (dispatch, _getState, api) => (
+export const deleteSession = () => (dispatch, _getState, api) => (
   api.delete(APIRoute.LOGOUT)
     .then(() => localStorage.removeItem('token'))
-    .then(() => dispatch(ActionCreator.logout()))
+    .then(() => dispatch(logout()))
 );

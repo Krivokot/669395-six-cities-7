@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {sortOffers} from '../../store/action';
 import {SortTypes} from '../../const';
 import PropTypes from 'prop-types';
 
@@ -35,7 +35,7 @@ Sort.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   onSortOffers(sort) {
-    dispatch(ActionCreator.sortOffers(sort));
+    dispatch(sortOffers(sort));
   },
 });
 

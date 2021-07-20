@@ -13,7 +13,7 @@ import {isCheckedAuth} from '../../auth';
 import PrivateRoute from '../private-route/private-route';
 
 function App(props) {
-  const {offers, reviews, cities} = props;
+  const {offers, cities} = props;
 
   const [selectedPoint, setSelectedPoint] = useState({});
 
@@ -47,7 +47,6 @@ function App(props) {
         <Route path={'/offer/:id'} exact>
           <Room
             offers = {offers}
-            reviews = {reviews}
             zoom = {MAP_ZOOM}
             selectedPoint = {selectedPoint}
             onListItemHover = {onListItemHover}
@@ -82,12 +81,6 @@ App.propTypes = {
       rating: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  reviews: PropTypes.arrayOf(
-    PropTypes.shape({
-      comment: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
     }),
   ).isRequired,
   cities: PropTypes.array.isRequired,
