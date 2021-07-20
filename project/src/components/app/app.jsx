@@ -11,6 +11,8 @@ import NotFound from '../404/404';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {isCheckedAuth} from '../../auth';
 import PrivateRoute from '../private-route/private-route';
+import {getOffers, getLoadedDataStatus} from '../../store/offer-data/selectors';
+import {getAuthStatus} from '../../store/user/selectors';
 
 function App(props) {
   const {offers, cities} = props;
@@ -89,9 +91,9 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  authorizationStatus: state.authorizationStatus,
-  isDataLoaded: state.isDataLoaded,
+  offers: getOffers(state),
+  authorizationStatus: getAuthStatus(state),
+  isDataLoaded: getLoadedDataStatus(state),
 });
 
 export {App};

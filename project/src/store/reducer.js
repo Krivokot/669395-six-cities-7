@@ -1,4 +1,4 @@
-import cities from '../mocks/cities';
+import cities from '../cities';
 import {ActionType} from './action';
 import {SortTypes, AuthorizationStatus} from '../const';
 

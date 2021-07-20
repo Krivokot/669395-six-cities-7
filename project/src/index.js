@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import cities from './mocks/cities';
+import cities from './cities';
 import thunk from 'redux-thunk';
 import {createAPI} from './services/api';
 import {createStore, applyMiddleware} from 'redux';
@@ -11,13 +11,14 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import {requireAuthorization} from './store/action';
 import {checkAuth, fetchOffersList} from './store/api-actions';
 import {AuthorizationStatus} from './const';
+import rootReducer from './store/root-reducer';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)),
 );
 
 const store = createStore(
-  reducer,
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),
   ),

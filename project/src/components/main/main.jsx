@@ -8,6 +8,8 @@ import {changeCity} from '../../store/action';
 import Sort from '../sort/sort';
 import {filterObjects} from '../../util';
 import Header from '../header/header';
+import {getOffers} from '../../store/offer-data/selectors';
+import {getCity, getSortType} from '../../store/view-settings/selectors';
 
 //FIXME запоминает только последний эмэил
 //FIXME падает на house among oilve
@@ -112,9 +114,9 @@ Main.propTypes = { //TODO proptypes перенести в функцию
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  activeCity: state.activeCity,
-  sortType: state.sortType,
+  offers: getOffers(state),
+  activeCity: getCity(state),
+  sortType: getSortType(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

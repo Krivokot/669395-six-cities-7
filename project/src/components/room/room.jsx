@@ -12,6 +12,9 @@ import { useHistory } from 'react-router-dom';
 import {fetchOfferDetails, fetchOfferNearby, fetchReviewsList} from '../../store/api-actions';
 import RoomImages from './room-images';
 import Header from '../header/header';
+import {getOffers, getOfferNearby, getOfferDetails, getOfferReviews} from '../../store/offer-data/selectors';
+import {getCity} from '../../store/view-settings/selectors';
+import {getAuthStatus} from '../../store/user/selectors';
 
 //FIXME при переходе через урл, карта не меняется
 //FIXME случается, что подсвечивается selectedPoint
@@ -173,11 +176,11 @@ Room.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  city: state.activeCity,
-  offer: state.details,
-  authorizationStatus: state.authorizationStatus,
-  nearby: state.nearby,
-  reviews: state.reviews,
+  city: getCity(state),
+  offer: getOfferDetails(state),
+  authorizationStatus: getAuthStatus(state),
+  nearby: getOfferNearby(state),
+  reviews: getOfferReviews(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
