@@ -11,9 +11,11 @@ import NotFound from '../404/404';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {isCheckedAuth} from '../../auth';
 import PrivateRoute from '../private-route/private-route';
+import {getOffers, getLoadedDataStatus} from '../../store/offer-data/selectors';
+import {getAuthStatus} from '../../store/user/selectors';
 
 function App(props) {
-  const {offers, reviews, cities} = props;
+  const {offers, cities} = props;
 
   const [selectedPoint, setSelectedPoint] = useState({});
 
@@ -47,7 +49,6 @@ function App(props) {
         <Route path={'/offer/:id'} exact>
           <Room
             offers = {offers}
-            reviews = {reviews}
             zoom = {MAP_ZOOM}
             selectedPoint = {selectedPoint}
             onListItemHover = {onListItemHover}
@@ -84,21 +85,15 @@ App.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  reviews: PropTypes.arrayOf(
-    PropTypes.shape({
-      comment: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
   cities: PropTypes.array.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  authorizationStatus: state.authorizationStatus,
-  isDataLoaded: state.isDataLoaded,
+  offers: getOffers(state),
+  authorizationStatus: getAuthStatus(state),
+  isDataLoaded: getLoadedDataStatus(state),
 });
 
 export {App};

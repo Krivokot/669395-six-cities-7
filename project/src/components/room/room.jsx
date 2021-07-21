@@ -1,81 +1,57 @@
-import {React, useState, useEffect} from 'react';
+import {React, useEffect} from 'react';
 import { useParams } from 'react-router';
 import Advantages from './advantages';
-import {CardTypes} from '../../const';
+import {CardTypes, AuthorizationStatus} from '../../const';
 import CityCard from '../card/city-card';
 import Comments from '../comments/comments';
 import PropTypes from 'prop-types';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
-import { useHistory } from 'react-router-dom';
-import {fetchOfferDetails} from '../../store/api-actions';
+import {fetchOfferDetails, fetchOfferNearby, fetchReviewsList} from '../../store/api-actions';
+import RoomImages from './room-images';
+import Header from '../header/header';
+import {getOfferNearby, getOfferDetails, getOfferReviews} from '../../store/offer-data/selectors';
+import {getCity} from '../../store/view-settings/selectors';
+import {getAuthStatus} from '../../store/user/selectors';
+
+//FIXME при переходе через урл, карта не меняется
+//FIXME случается, что подсвечивается selectedPoint
+//FIXME глючит на вложенных объектах
+//TODO сделать рэйтинг
+//FIXME плывет верстка в местах поблизости
+//TODO чистить редакс при переходе по страницам
+//TODO сделать переход на 404 в случае несуществующего оффера
+//TODO добавить обработки ошибок
+//FIXME комменты чистятся при сайнауте
 
 
 function Room(props) {
-  const {offer, reviews, city, zoom, selectedPoint, onListItemHover, fetchOffer} = props;
-  const history = useHistory();
+  const {offer, nearby, reviews, city, zoom, selectedPoint, onListItemHover, fetchOffer, fetchNearBy, fetchReviews, authorizationStatus} = props;
+
   const {id} = useParams();
 
   useEffect(() => {
     fetchOffer(id);
-  }, [id])
+    fetchNearBy(id);
+    fetchReviews(id);
+  }, [id]);
 
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-
-              <a className="header__logo-link">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
-
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="img/logo.svg">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="img/logo.svg">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
-              </div>
+              {/* {offer.images.map((image) => (
+                <RoomImages
+                  key = {image}
+                  image = {image}
+                  alt = {offer.type}
+                />
+              ))} */}
             </div>
           </div>
           <div className="property__container container">
@@ -123,10 +99,10 @@ function Room(props) {
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
                   {/* {offer.goods.map((advantage) => (
-                    // <Advantages
-                    //   key={advantage}
-                    //   advantage={advantage}
-                    // />
+                    <Advantages
+                      key={advantage}
+                      advantage={advantage}
+                    />
                   ))} */}
                 </ul>
               </div>
@@ -150,33 +126,34 @@ function Room(props) {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ReviewsList
                   reviews = {reviews}
                 />
-                <Comments />
+                {authorizationStatus === AuthorizationStatus.AUTH ?
+                  <Comments id = {id}/> : ''}
               </section>
             </div>
           </div>
-          {/* <Map
+          <Map
             city={city}
             zoom={zoom}
-            points={offers}
+            points={nearby}
             selectedPoint={selectedPoint}
             cardType = {CardTypes.ROOM}
-          /> */}
+          />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {/* {offers.map((nearestOffer) => (
+              {nearby.map((nearestOffer) => (
                 <CityCard
                   key={`${nearestOffer.title}`}
                   offer={nearestOffer}
                   cardType = {CardTypes.ROOM}
                   onListItemHover={onListItemHover}
-                /> */}
+                />
               ))}
             </div>
           </section>
@@ -193,20 +170,31 @@ Room.propTypes = {
   zoom: PropTypes.number.isRequired,
   selectedPoint: PropTypes.object.isRequired,
   onListItemHover: PropTypes.func.isRequired,
+  nearby: PropTypes.object,
+  fetchOffer: PropTypes.func,
+  fetchNearBy: PropTypes.func,
+  fetchReviews: PropTypes.func,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  city: state.activeCity,
-  offer: state.details,
+  city: getCity(state),
+  offer: getOfferDetails(state),
+  authorizationStatus: getAuthStatus(state),
+  nearby: getOfferNearby(state),
+  reviews: getOfferReviews(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onChangeCity(city) {
-    dispatch(ActionCreator.changeCity(city));
-  },
   fetchOffer(id) {
-    dispatch(fetchOfferDetails(id))
-  }
+    dispatch(fetchOfferDetails(id));
+  },
+  fetchNearBy(id) {
+    dispatch(fetchOfferNearby(id));
+  },
+  fetchReviews(id) {
+    dispatch(fetchReviewsList(id));
+  },
 });
 
 export {Room};
