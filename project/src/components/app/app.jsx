@@ -54,7 +54,7 @@ function App(props) {
             onListItemHover = {onListItemHover}
           />
         </Route>
-        <PrivateRoute path={AppRoute.FAVORITES} exact render={() => <Favorites offers = {offers}/>}>
+        <PrivateRoute path={AppRoute.FAVORITES} exact render={() => <Favorites />}>
         </PrivateRoute>
         <Route path={AppRoute.SIGN_IN} exact>
           <Login />

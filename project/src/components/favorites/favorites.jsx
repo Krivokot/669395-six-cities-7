@@ -3,6 +3,7 @@ import CityCard from '../card/city-card';
 import {CardTypes} from '../../const';
 import PropTypes from 'prop-types';
 import Header from '../header/header';
+import FavoritesList from './favorites-list';
 
 function Favorites(props) {
   const {offers} = props;
@@ -15,45 +16,7 @@ function Favorites(props) {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="img/logo.svg">
-                      <span>Amsterdam</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  {offers.map((offer) =>
-                    offer.is_favorite ?
-                      <CityCard
-                        offer={offer}
-                        cardType = {CardTypes.FAVORITES}
-                      />
-                      : '')}
-                </div>
-              </li>
-
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="img/logo.svg">
-                      <span>Cologne</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  {offers.map((offer) =>
-                    offer.is_favorite ?
-                      <CityCard
-                        offer={offer}
-                        cardType = {CardTypes.FAVORITES}
-                      />
-                      : '')}
-                </div>
-              </li>
-            </ul>
+            <FavoritesList />
           </section>
         </div>
       </main>

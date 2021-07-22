@@ -10,6 +10,7 @@ import {filterObjects} from '../../util';
 import Header from '../header/header';
 import {getOffers} from '../../store/offer-data/selectors';
 import {getCity, getSortType} from '../../store/view-settings/selectors';
+import MainEmpty from '../main-empty/main-empty';
 
 //FIXME запоминает только последний эмэил
 //FIXME падает на house among oilve
@@ -58,7 +59,9 @@ function Main(props) {
             </ul>
           </section>
         </div>
-        <div className="cities">
+        {filteredOffers === null ? 
+          <MainEmpty city={activeCity} /> :
+          <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
@@ -81,6 +84,7 @@ function Main(props) {
             </div>
           </div>
         </div>
+        }
       </main>
     </div>
   );

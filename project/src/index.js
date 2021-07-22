@@ -13,7 +13,7 @@ import {AuthorizationStatus} from './const';
 import rootReducer from './store/root-reducer';
 
 const api = createAPI(
-  () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)),
+  () => store.dispatch(requireAuthorization(AuthorizationStatus.AUTH)),
 );
 
 const store = createStore(
