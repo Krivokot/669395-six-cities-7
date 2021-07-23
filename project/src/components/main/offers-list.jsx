@@ -47,4 +47,5 @@ OffersList.propTypes = {
   city: PropTypes.object.isRequired,
 };
 
+
 export default OffersList;

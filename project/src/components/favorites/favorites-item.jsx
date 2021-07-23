@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import CityCard from '../card/city-card';
 import {CardTypes} from '../../const';
+import {connect} from 'react-redux';
+import { deleteFromFavorites } from '../../store/api-actions';
 
 function FavoritesItem(props) {
   
   const {favorites} = props;
-
-  console.log(favorites);
 
   return (
     <li className="favorites__locations-items">
@@ -33,5 +33,11 @@ function FavoritesItem(props) {
   )};
 
 
-
-export default FavoritesItem;
+  // const mapDispatchToProps = (dispatch) => ({
+  //   handleToBookmarks() {
+  //     dispatch(deleteFromFavorites());
+  //   },
+  // });
+  
+  export default FavoritesItem;
+  // export default connect(null, mapDispatchToProps)(FavoritesItem);

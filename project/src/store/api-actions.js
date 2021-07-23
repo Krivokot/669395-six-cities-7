@@ -21,11 +21,6 @@ export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(loadReviews(data)))
 );
 
-export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
-  api.get(APIRoute.FAVORITES)
-    .then(({data}) => dispatch(loadFavorites(data)))
-);
-
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
@@ -45,6 +40,17 @@ export const sendComments = ({comment, rating}, id) => (dispatch, _getState, api
 
 export const sendToFavorites = (status, id) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVORITES}/${id}/${status}`)
+    .then(() => dispatch(fetchOffersList()))
+);
+
+export const deleteFromFavorites = (status, id) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.FAVORITES}/${id}/${status}`)
+    .then(() => dispatch(fetchOffersList()))
+    .then(() => dispatch(fetchFavoritesOffers()))
+);
+
+export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FAVORITES)
     .then(({data}) => dispatch(loadFavorites(data)))
 );
 

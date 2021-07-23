@@ -14,6 +14,8 @@ function Favorites(props) {
     fetchFavorites();
   }, [fetchFavorites]);
 
+  console.log(favorites);
+
   return (
     <div className="page">
       <Header />

@@ -2,20 +2,12 @@ import React, { useState } from 'react';
 import {AppRoute, CardTypes, FavoriteStatus, AuthorizationStatus} from '../../const';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { fetchFavoritesOffers, sendToFavorites } from '../../store/api-actions';
+import { deleteFromFavorites, fetchFavoritesOffers, fetchOffersList, sendToFavorites } from '../../store/api-actions';
 import {connect} from 'react-redux';
 import { getAuthStatus } from '../../store/user/selectors';
 
 function CityCard(props) {
-  const {offer, cardType, titleEnter, onClick, authorizationStatus} = props;
-
-  const [activeFlag, setActive] = useState(offer.is_favorite);
-
-  const handleToBookmarks = (evt) => {
-    evt.preventDefault();
-    setActive(!activeFlag);
-    onClick(activeFlag ? FavoriteStatus.FALSE : FavoriteStatus.TRUE, offer.id);
-  };
+  const {offer, cardType, titleEnter, handleToBookmarks, handleFromBookmarks, authorizationStatus} = props;
 
   return (
     <article className={cardType === CardTypes.MAIN ? 'cities__place-card place-card' : 'favorites__card place-card'}>
@@ -24,7 +16,9 @@ function CityCard(props) {
           <span>Premium</span>
         </div>
         : ''}
-      <div className ={cardType === CardTypes.MAIN ? 'cities__image-wrapper place-card__image-wrapper' : 'favorites__image-wrapper place-card__image-wrapper'}>
+      <div className ={cardType === CardTypes.MAIN ? 
+        'cities__image-wrapper place-card__image-wrapper' : 
+        'favorites__image-wrapper place-card__image-wrapper'}>
         <a href="img/apartment-01.jpg">
           <img className="place-card__image" src={offer.preview_image} width="260" height="200" alt="Place" />
         </a>
@@ -44,7 +38,16 @@ function CityCard(props) {
             <span className="visually-hidden">To bookmarks</span>
             </button>
           </Link> :
-          <button className={activeFlag ? 'place-card__bookmark-button--active button' : 'place-card__bookmark-button button'} type="button" onClick={handleToBookmarks}>
+          <button className={offer.is_favorite ? 
+          'place-card__bookmark-button--active button' : 
+          'place-card__bookmark-button button'} 
+          type="button" 
+          onClick={() => {
+            console.log(offer.is_favorite);
+            offer.is_favorite && CardTypes.FAVORITES ? 
+            handleFromBookmarks(FavoriteStatus.FALSE, offer.id) :
+            handleToBookmarks(FavoriteStatus.TRUE, offer.id)}
+            }>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -79,9 +82,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onClick(status, id) {
+  handleToBookmarks(status, id) {
     dispatch(sendToFavorites(status, id));
-    dispatch(fetchFavoritesOffers())
+  },
+  handleFromBookmarks(status, id) {
+    dispatch(deleteFromFavorites(status, id));
   },
 });
 
