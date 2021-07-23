@@ -8,6 +8,8 @@ function FavoritesItem(props) {
   
   const {favorites} = props;
 
+  console.log(favorites);
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -20,12 +22,12 @@ function FavoritesItem(props) {
         </div>
       </div>
       <div className="favorites__places">
-        {favorites.map((favorite) =>
+        {favorites.map((favorite) => (
             <CityCard
               offer={favorite}
               cardType = {CardTypes.FAVORITES}
             />
-            )}
+        ))}
       </div>
     </li>
   )};

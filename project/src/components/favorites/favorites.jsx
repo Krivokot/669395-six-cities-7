@@ -12,7 +12,7 @@ function Favorites(props) {
 
   useEffect(() => {
     fetchFavorites();
-  }, []);
+  }, [fetchFavorites]);
 
   return (
     <div className="page">

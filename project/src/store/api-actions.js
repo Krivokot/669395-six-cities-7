@@ -45,7 +45,7 @@ export const sendComments = ({comment, rating}, id) => (dispatch, _getState, api
 
 export const sendToFavorites = (status, id) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVORITES}/${id}/${status}`)
-    .then(({data}) => dispatch(loadReviews(data)))
+    .then(({data}) => dispatch(loadFavorites(data)))
 );
 
 export const loadAuthInfo = () => (dispatch, _getState, api) => (
