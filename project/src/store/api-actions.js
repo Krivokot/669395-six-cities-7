@@ -1,4 +1,4 @@
-import {loadOffers, loadDetails, loadNearby, loadReviews, requireAuthorization, loadUserInfo, logout} from './action';
+import {loadOffers, loadDetails, loadNearby, loadReviews, requireAuthorization, loadUserInfo, loadFavorites, logout} from './action';
 import {AuthorizationStatus, APIRoute} from '../const';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
@@ -21,6 +21,11 @@ export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(loadReviews(data)))
 );
 
+export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FAVORITES)
+    .then(({data}) => dispatch(loadFavorites(data)))
+);
+
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
@@ -35,6 +40,11 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
 
 export const sendComments = ({comment, rating}, id) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}/${id}`, {comment, rating})
+    .then(({data}) => dispatch(loadReviews(data)))
+);
+
+export const sendToFavorites = (status, id) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.FAVORITES}/${id}/${status}`)
     .then(({data}) => dispatch(loadReviews(data)))
 );
 

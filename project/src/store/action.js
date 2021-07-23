@@ -9,6 +9,7 @@ export const ActionType = {
   LOGOUT: 'auth/logout',
   LOAD_REVIEWS: 'details/loadReviews',
   LOAD_USER_INFO: 'auth/loadUserInfo',
+  LOAD_FAVORITES: 'favorites/loadFavorites',
 };
 
 export const changeCity = (cityName) => ({
@@ -39,6 +40,11 @@ export const loadNearby = (nearbyOffers) => ({
 export const loadReviews = (reviews) => ({
   type: ActionType.LOAD_REVIEWS,
   payload: reviews,
+});
+
+export const loadFavorites = (favorites) => ({
+  type: ActionType.LOAD_FAVORITES,
+  payload: favorites,
 });
 
 export const loadUserInfo = (userInfo) => ({

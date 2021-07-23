@@ -29,6 +29,7 @@ export const APIRoute = {
   REVIEWS: '/comments',
   LOGIN: '/login',
   LOGOUT: '/logout',
+  FAVORITES: '/favorite',
 };
 
 export const Cities = {
@@ -45,3 +46,8 @@ export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';
 
 export const MAP_ZOOM = 12;
+
+export const FavoriteStatus = {
+  TRUE: 1,
+  FALSE: 0,
+};

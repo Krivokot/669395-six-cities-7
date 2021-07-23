@@ -6,6 +6,7 @@ import {CardTypes} from '../../const';
 
 function FavoritesItem(props) {
   
+  const {favorites} = props;
 
   return (
     <li className="favorites__locations-items">
@@ -19,9 +20,9 @@ function FavoritesItem(props) {
         </div>
       </div>
       <div className="favorites__places">
-        {offers.map((offer) =>
+        {favorites.map((favorite) =>
             <CityCard
-              offer={offer}
+              offer={favorite}
               cardType = {CardTypes.FAVORITES}
             />
             )}

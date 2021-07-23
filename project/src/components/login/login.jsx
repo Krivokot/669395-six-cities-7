@@ -22,6 +22,7 @@ function Login({onSubmit}) {
     });
 
     history.push(AppRoute.MAIN);
+    console.log(onSubmit);
   };
 
   return (
