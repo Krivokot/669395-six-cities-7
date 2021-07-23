@@ -57,10 +57,7 @@ function App(props) {
         <Route path={AppRoute.SIGN_IN} exact>
           <Login />
         </Route>
-        {/* <PrivateRoute path={AppRoute.FAVORITES} exact render={() => (<Favorites />)}/> */}
-        <Route>
-          <Favorites />
-        </Route>
+        <PrivateRoute path={AppRoute.FAVORITES} exact render={() => (<Favorites />)}/>
         <Route>
           <NotFound />
         </Route>

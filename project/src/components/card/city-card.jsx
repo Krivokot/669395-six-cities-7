@@ -6,6 +6,9 @@ import { deleteFromFavorites, fetchFavoritesOffers, fetchOffersList, sendToFavor
 import {connect} from 'react-redux';
 import { getAuthStatus } from '../../store/user/selectors';
 
+//FIXME сделать добавление в избранное для ROOM
+//FIXME поплыла верстка nearby
+
 function CityCard(props) {
   const {offer, cardType, titleEnter, handleToBookmarks, handleFromBookmarks, authorizationStatus} = props;
 
@@ -43,7 +46,6 @@ function CityCard(props) {
           'place-card__bookmark-button button'} 
           type="button" 
           onClick={() => {
-            console.log(offer.is_favorite);
             offer.is_favorite && CardTypes.FAVORITES ? 
             handleFromBookmarks(FavoriteStatus.FALSE, offer.id) :
             handleToBookmarks(FavoriteStatus.TRUE, offer.id)}
