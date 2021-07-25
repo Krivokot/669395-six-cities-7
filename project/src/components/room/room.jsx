@@ -1,40 +1,65 @@
-import {React, useEffect} from 'react';
+import { React, useEffect } from 'react';
 import { useParams } from 'react-router';
 import Advantages from './advantages';
-import {CardTypes, AuthorizationStatus} from '../../const';
+import { CardTypes, AuthorizationStatus } from '../../const';
 import CityCard from '../card/city-card';
 import Comments from '../comments/comments';
 import PropTypes from 'prop-types';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
-import {connect} from 'react-redux';
-import {fetchOfferDetails, fetchOfferNearby, fetchReviewsList} from '../../store/api-actions';
+import { connect } from 'react-redux';
+import {
+  fetchOfferDetails,
+  fetchOfferNearby,
+  fetchReviewsList
+} from '../../store/api-actions';
 import RoomImages from './room-images';
 import Header from '../header/header';
-import {getOfferNearby, getOfferDetails, getOfferReviews} from '../../store/offer-data/selectors';
-import {getCity} from '../../store/view-settings/selectors';
-import {getAuthStatus} from '../../store/user/selectors';
+import {
+  getOfferNearby,
+  getOfferDetails,
+  getOfferReviews,
+  getDetailsLoadedStatus
+} from '../../store/offer-data/selectors';
+import { getCity } from '../../store/view-settings/selectors';
+import { getAuthStatus } from '../../store/user/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 //FIXME при переходе через урл, карта не меняется
 //FIXME случается, что подсвечивается selectedPoint
-//FIXME глючит на вложенных объектах
 //TODO сделать рэйтинг
 //TODO чистить редакс при переходе по страницам
 //TODO сделать переход на 404 в случае несуществующего оффера
 //TODO добавить обработки ошибок
 //FIXME комменты чистятся при сайнауте
 
-
 function Room(props) {
-  const {offer, nearby, reviews, city, zoom, selectedPoint, onListItemHover, fetchOffer, fetchNearBy, fetchReviews, authorizationStatus} = props;
+  const {
+    offer,
+    nearby,
+    reviews,
+    city,
+    zoom,
+    selectedPoint,
+    onListItemHover,
+    fetchOffer,
+    fetchNearBy,
+    fetchReviews,
+    authorizationStatus,
+    isDetailsLoaded,
+  } = props;
 
-  const {id} = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     fetchOffer(id);
     fetchNearBy(id);
     fetchReviews(id);
-  }, [id]);
+  }, [id, fetchOffer, fetchNearBy, fetchReviews]);
+
+  if (!isDetailsLoaded) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="page">
@@ -44,29 +69,31 @@ function Room(props) {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {/* {offer.images.map((image) => (
-                <RoomImages
-                  key = {image}
-                  image = {image}
-                  alt = {offer.type}
-                />
-              ))} */}
+              {offer.images.map((image) => (
+                <RoomImages key={image} image={image} alt={offer.type} />
+              ))}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {offer.is_premium ?
+              {offer.is_premium ? (
                 <div className="property__mark">
                   <span>Premium</span>
                 </div>
-                :
-                ''}
+              ) : (
+                ''
+              )}
               <div className="property__name-wrapper">
-                <h1 className="property__name">
-                  {offer.title}
-                </h1>
-                <button className="property__bookmark-button button" type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
+                <h1 className="property__name">{offer.title}</h1>
+                <button
+                  className="property__bookmark-button button"
+                  type="button"
+                >
+                  <svg
+                    className="property__bookmark-icon"
+                    width="31"
+                    height="33"
+                  >
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
@@ -74,10 +101,12 @@ function Room(props) {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: 80}}></span>
+                  <span style={{ width: 80 }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{offer.rating}</span>
+                <span className="property__rating-value rating__value">
+                  {offer.rating}
+                </span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
@@ -87,7 +116,7 @@ function Room(props) {
                   {offer.bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {offer.maxAdults} adults
+                  Max {offer.max_adults} adults
                 </li>
               </ul>
               <div className="property__price">
@@ -97,40 +126,43 @@ function Room(props) {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {/* {offer.goods.map((advantage) => (
-                    <Advantages
-                      key={advantage}
-                      advantage={advantage}
-                    />
-                  ))} */}
+                  {offer.goods.map((advantage) => (
+                    <Advantages key={advantage} advantage={advantage} />
+                  ))}
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src='' width="74" height="74" alt="Host avatar" />
+                    <img
+                      className="property__avatar user__avatar"
+                      src={offer.host.avatar_url}
+                      width="74"
+                      height="74"
+                      alt="Host avatar"
+                    />
                   </div>
-                  <span className="property__user-name">
-                    {/* {offer.host.name} */}
-                  </span>
+                  <span className="property__user-name">{offer.host.name}</span>
                   <span className="property__user-status">
-                    {/* {offer.host.is_pro ? 'Pro' : ''} */}
+                    {offer.host.is_pro ? 'Pro' : ''}
                   </span>
                 </div>
                 <div className="property__description">
-                  <p className="property__text">
-                    {offer.description}
-                  </p>
+                  <p className="property__text">{offer.description}</p>
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <ReviewsList
-                  reviews = {reviews}
-                />
-                {authorizationStatus === AuthorizationStatus.AUTH ?
-                  <Comments id = {id}/> : ''}
+                <h2 className="reviews__title">
+                  Reviews &middot;{' '}
+                  <span className="reviews__amount">{reviews.length}</span>
+                </h2>
+                <ReviewsList reviews={reviews} />
+                {authorizationStatus === AuthorizationStatus.AUTH ? (
+                  <Comments id={id} />
+                ) : (
+                  ''
+                )}
               </section>
             </div>
           </div>
@@ -139,18 +171,20 @@ function Room(props) {
             zoom={zoom}
             points={nearby}
             selectedPoint={selectedPoint}
-            cardType = {CardTypes.ROOM}
+            cardType={CardTypes.ROOM}
           />
         </section>
         <div className="container">
           <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            <h2 className="near-places__title">
+              Other places in the neighbourhood
+            </h2>
             <div className="near-places__list places__list">
               {nearby.map((nearestOffer) => (
                 <CityCard
                   key={`${nearestOffer.title}`}
                   offer={nearestOffer}
-                  cardType = {CardTypes.ROOM}
+                  cardType={CardTypes.ROOM}
                   onListItemHover={onListItemHover}
                 />
               ))}
@@ -169,11 +203,12 @@ Room.propTypes = {
   zoom: PropTypes.number.isRequired,
   selectedPoint: PropTypes.object.isRequired,
   onListItemHover: PropTypes.func.isRequired,
-  nearby: PropTypes.object,
+  nearby: PropTypes.array,
   fetchOffer: PropTypes.func,
   fetchNearBy: PropTypes.func,
   fetchReviews: PropTypes.func,
   authorizationStatus: PropTypes.string.isRequired,
+  isDetailsLoaded: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -182,6 +217,7 @@ const mapStateToProps = (state) => ({
   authorizationStatus: getAuthStatus(state),
   nearby: getOfferNearby(state),
   reviews: getOfferReviews(state),
+  isDetailsLoaded: getDetailsLoadedStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -196,5 +232,5 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export {Room};
+export { Room };
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

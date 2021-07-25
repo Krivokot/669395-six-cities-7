@@ -48,7 +48,6 @@ function App(props) {
         </Route>
         <Route path={'/offer/:id'} exact>
           <Room
-            offers = {offers}
             zoom = {MAP_ZOOM}
             selectedPoint = {selectedPoint}
             onListItemHover = {onListItemHover}
@@ -67,23 +66,7 @@ function App(props) {
 }
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(
-    PropTypes.shape({
-      bedrooms: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      goods: PropTypes.array,
-      id: PropTypes.number.isRequired,
-      image: PropTypes.array,
-      isFavorite: PropTypes.bool,
-      isPremium: PropTypes.bool.isRequired,
-      maxAdults: PropTypes.number.isRequired,
-      previewImage: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  offers: PropTypes.array.isRequired,
   cities: PropTypes.array.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,

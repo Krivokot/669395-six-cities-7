@@ -7,14 +7,12 @@ import {fetchFavoritesOffers} from '../../store/api-actions';
 import {connect} from 'react-redux';
 
 function Favorites(props) {
-  
+
   const {favorites, fetchFavorites} = props;
 
   useEffect(() => {
     fetchFavorites();
   }, [fetchFavorites]);
-
-  console.log(favorites);
 
   return (
     <div className="page">
@@ -37,25 +35,9 @@ function Favorites(props) {
 }
 
 Favorites.propTypes = {
-  offers: PropTypes.arrayOf(
-    PropTypes.shape({
-      bedrooms: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      goods: PropTypes.array,
-      id: PropTypes.number.isRequired,
-      image: PropTypes.array,
-      isFavorite: PropTypes.bool,
-      isPremium: PropTypes.bool.isRequired,
-      maxAdults: PropTypes.number.isRequired,
-      previewImage: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  favorites: PropTypes.array,
+  fetchFavorites: PropTypes.func,
 };
-
 
 const mapStateToProps = (state) => ({
   favorites: getFavorites(state),

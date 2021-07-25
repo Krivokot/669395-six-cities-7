@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function MainEmpty(props) {
 
@@ -19,6 +20,8 @@ function MainEmpty(props) {
   );
 }
 
-
+MainEmpty.propTypes = {
+  city: PropTypes.object,
+};
 
 export default MainEmpty;

@@ -10,8 +10,11 @@ function FavoritesList(props) {
     <ul className="favorites__list">
       <FavoritesItem favorites = {favorites}  />
     </ul>
-  )};
+  );
+}
 
-
+FavoritesList.propTypes = {
+  favorites: PropTypes.array,
+};
 
 export default FavoritesList;

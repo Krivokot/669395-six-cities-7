@@ -7,6 +7,7 @@ const initialState = {
   reviews: [],
   favorites: [],
   isDataLoaded: false,
+  isDetailsLoaded: false,
 };
 
 const offerData = (state = initialState, action) => {
@@ -21,25 +22,22 @@ const offerData = (state = initialState, action) => {
       return {
         ...state,
         details: action.payload,
-        isDataLoaded: true,
+        isDetailsLoaded: true,
       };
     case ActionType.LOAD_NEARBY:
       return {
         ...state,
         nearby: action.payload,
-        isDataLoaded: true,
       };
     case ActionType.LOAD_REVIEWS:
       return {
         ...state,
         reviews: action.payload,
-        isDataLoaded: true,
       };
     case ActionType.LOAD_FAVORITES:
       return {
         ...state,
         favorites: action.payload,
-        isDataLoaded: true,
       };
     default:
       return state;

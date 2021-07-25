@@ -1,15 +1,15 @@
-import {React} from 'react';
+import { React } from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../main/offers-list';
 import Map from '../map/map';
-import {CardTypes, SortTypes} from '../../const';
-import {connect} from 'react-redux';
-import {changeCity} from '../../store/action';
+import { CardTypes, SortTypes } from '../../const';
+import { connect } from 'react-redux';
+import { changeCity } from '../../store/action';
 import Sort from '../sort/sort';
-import {filterObjects} from '../../util';
+import { filterObjects } from '../../util';
 import Header from '../header/header';
-import {getOffers} from '../../store/offer-data/selectors';
-import {getCity, getSortType} from '../../store/view-settings/selectors';
+import { getOffers } from '../../store/offer-data/selectors';
+import { getCity, getSortType } from '../../store/view-settings/selectors';
 import MainEmpty from '../main-empty/main-empty';
 
 //FIXME запоминает только последний эмэил
@@ -18,19 +18,28 @@ import MainEmpty from '../main-empty/main-empty';
 //TODO сортировка не исчезает при выборе
 
 function Main(props) {
-  const {offers, zoom, selectedPoint, onListItemHover, activeCity, cities, onChangeCity, sortType} = props;
+  const {
+    offers,
+    zoom,
+    selectedPoint,
+    onListItemHover,
+    activeCity,
+    cities,
+    onChangeCity,
+    sortType,
+  } = props;
 
   const filteredOffers = filterObjects(offers, activeCity.name);
 
   switch (sortType) {
     case SortTypes.LOW_PRICE:
-      filteredOffers.sort((a,b) => a.price - b.price);
+      filteredOffers.sort((a, b) => a.price - b.price);
       break;
     case SortTypes.HIGH_PRICE:
-      filteredOffers.sort((a,b) => b.price - a.price);
+      filteredOffers.sort((a, b) => b.price - a.price);
       break;
     case SortTypes.TOP_RATED:
-      filteredOffers.sort((a,b) => b.rating - a.rating);
+      filteredOffers.sort((a, b) => b.rating - a.rating);
       break;
     default:
       break;
@@ -47,9 +56,12 @@ function Main(props) {
               {cities.map((city) => (
                 <li className="locations__item">
                   <a
-                    className={activeCity.name === city.name ? 'locations__item-link tabs__item--active' : 'locations__item-link tabs__item'}
-                    onClick={() =>
-                      onChangeCity(city)}
+                    className={
+                      activeCity.name === city.name
+                        ? 'locations__item-link tabs__item--active'
+                        : 'locations__item-link tabs__item'
+                    }
+                    onClick={() => onChangeCity(city)}
                   >
                     <span>{city.name}</span>
                   </a>
@@ -58,38 +70,42 @@ function Main(props) {
             </ul>
           </section>
         </div>
-        {filteredOffers === null ? 
-          <MainEmpty city={activeCity} /> :
+        {filteredOffers === null ? (
+          <MainEmpty city={activeCity} />
+        ) : (
           <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{filteredOffers.length} places to stay in {activeCity.name}</b>
-              <Sort />
-              <OffersList
-                offers = {filteredOffers}
-                onListItemHover={onListItemHover}
-                city={activeCity}
-              />
-            </section>
-            <div className="cities__right-section">
-              <Map
-                city={activeCity}
-                zoom={zoom}
-                points={filteredOffers}
-                selectedPoint={selectedPoint}
-                cardType = {CardTypes.MAIN}
-              />
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">
+                  {filteredOffers.length} places to stay in {activeCity.name}
+                </b>
+                <Sort />
+                <OffersList
+                  offers={filteredOffers}
+                  onListItemHover={onListItemHover}
+                  city={activeCity}
+                />
+              </section>
+              <div className="cities__right-section">
+                <Map
+                  city={activeCity}
+                  zoom={zoom}
+                  points={filteredOffers}
+                  selectedPoint={selectedPoint}
+                  cardType={CardTypes.MAIN}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        }
+        )}
       </main>
     </div>
   );
 }
 
-Main.propTypes = { //TODO proptypes перенести в функцию
+Main.propTypes = {
+  //TODO proptypes перенести в функцию
   offers: PropTypes.arrayOf(
     PropTypes.shape({
       bedrooms: PropTypes.number.isRequired,
@@ -97,10 +113,10 @@ Main.propTypes = { //TODO proptypes перенести в функцию
       goods: PropTypes.array,
       id: PropTypes.number.isRequired,
       image: PropTypes.array,
-      isFavorite: PropTypes.bool,
-      isPremium: PropTypes.bool.isRequired,
-      maxAdults: PropTypes.number.isRequired,
-      previewImage: PropTypes.string.isRequired,
+      is_favorite: PropTypes.bool,
+      is_premium: PropTypes.bool,
+      max_adults: PropTypes.number.isRequired,
+      preview_image: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,
       rating: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
@@ -128,5 +144,5 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export {Main};
+export { Main };
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

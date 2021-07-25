@@ -2,42 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import CityCard from '../card/city-card';
-import {CardTypes} from '../../const';
-import {connect} from 'react-redux';
-import { deleteFromFavorites } from '../../store/api-actions';
+import { AppRoute, CardTypes } from '../../const';
 
 function FavoritesItem(props) {
-  
-  const {favorites} = props;
+  const { favorites } = props;
 
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-            <Link>
-              <a className="locations__item-link">
-                <span>Cologne</span>
-              </a>
-            </Link>
+          <Link to={AppRoute.MAIN} className="locations__item-link">
+            <span>Cologne</span>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">
         {favorites.map((favorite) => (
-            <CityCard
-              offer={favorite}
-              cardType = {CardTypes.FAVORITES}
-            />
+          <CityCard key={favorite.id} offer={favorite} cardType={CardTypes.FAVORITES} />
         ))}
       </div>
     </li>
-  )};
+  );
+}
 
+FavoritesItem.propTypes = {
+  favorites: PropTypes.array,
+};
 
-  // const mapDispatchToProps = (dispatch) => ({
-  //   handleToBookmarks() {
-  //     dispatch(deleteFromFavorites());
-  //   },
-  // });
-  
-  export default FavoritesItem;
-  // export default connect(null, mapDispatchToProps)(FavoritesItem);
+export default FavoritesItem;
