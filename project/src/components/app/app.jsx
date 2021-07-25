@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Main from '../main/main';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import {AppRoute, MAP_ZOOM} from '../../const';
 import Login from '../login/login';
 import Favorites from '../favorites/favorites';
@@ -35,7 +35,6 @@ function App(props) {
   };
 
   return (
-    <BrowserRouter>
       <Switch>
         <Route path={AppRoute.MAIN} exact>
           <Main
@@ -61,7 +60,6 @@ function App(props) {
           <NotFound />
         </Route>
       </Switch>
-    </BrowserRouter>
   );
 }
 

@@ -11,6 +11,8 @@ import {requireAuthorization} from './store/action';
 import {checkAuth, fetchOffersList} from './store/api-actions';
 import {AuthorizationStatus} from './const';
 import rootReducer from './store/root-reducer';
+import {Router as BrowserRouter} from 'react-router-dom';
+import browserHistory from './browser-history';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)),
@@ -29,9 +31,11 @@ store.dispatch(fetchOffersList());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App
-        cities = {cities}
-      />
+      <BrowserRouter history={browserHistory}>
+        <App
+          cities = {cities}
+        />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
