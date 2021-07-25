@@ -106,23 +106,7 @@ function Main(props) {
 
 Main.propTypes = {
   //TODO proptypes перенести в функцию
-  offers: PropTypes.arrayOf(
-    PropTypes.shape({
-      bedrooms: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      goods: PropTypes.array,
-      id: PropTypes.number.isRequired,
-      image: PropTypes.array,
-      is_favorite: PropTypes.bool,
-      is_premium: PropTypes.bool,
-      max_adults: PropTypes.number.isRequired,
-      preview_image: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  offers: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
   selectedPoint: PropTypes.object.isRequired,
   onListItemHover: PropTypes.func.isRequired,

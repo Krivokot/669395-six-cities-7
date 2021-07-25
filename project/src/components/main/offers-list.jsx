@@ -26,23 +26,7 @@ function OffersList(props) {
 }
 
 OffersList.propTypes = {
-  offers: PropTypes.arrayOf(
-    PropTypes.shape({
-      bedrooms: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      goods: PropTypes.array,
-      id: PropTypes.number.isRequired,
-      image: PropTypes.array,
-      is_favorite: PropTypes.bool.isRequired,
-      is_premium: PropTypes.bool.isRequired,
-      max_adults: PropTypes.number.isRequired,
-      preview_image: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  offers: PropTypes.array.isRequired,
   onListItemHover: PropTypes.func.isRequired,
   city: PropTypes.object.isRequired,
 };

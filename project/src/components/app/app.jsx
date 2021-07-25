@@ -1,65 +1,68 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Main from '../main/main';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Switch, Route} from 'react-router-dom';
-import {AppRoute, MAP_ZOOM} from '../../const';
+import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import { AppRoute, MAP_ZOOM } from '../../const';
 import Login from '../login/login';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import NotFound from '../404/404';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {isCheckedAuth} from '../../auth';
+import { isCheckedAuth } from '../../auth';
 import PrivateRoute from '../private-route/private-route';
-import {getOffers, getLoadedDataStatus} from '../../store/offer-data/selectors';
-import {getAuthStatus} from '../../store/user/selectors';
+import {
+  getOffers,
+  getLoadedDataStatus
+} from '../../store/offer-data/selectors';
+import { getAuthStatus } from '../../store/user/selectors';
 
 function App(props) {
-  const {offers, cities} = props;
+  const { offers, cities } = props;
 
   const [selectedPoint, setSelectedPoint] = useState({});
 
-  const {authorizationStatus, isDataLoaded} = props;
+  const { authorizationStatus, isDataLoaded } = props;
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
-    return (
-      <LoadingScreen />
-    );
+    return <LoadingScreen />;
   }
 
   const onListItemHover = (listItemName) => {
-    const currentPoint = offers.find((offer) =>
-      offer.title === listItemName,
-    );
+    const currentPoint = offers.find((offer) => offer.title === listItemName);
     setSelectedPoint(currentPoint);
   };
 
   return (
-      <Switch>
-        <Route path={AppRoute.MAIN} exact>
-          <Main
-            offers = {offers}
-            zoom = {MAP_ZOOM}
-            selectedPoint = {selectedPoint}
-            onListItemHover = {onListItemHover}
-            cities = {cities}
-          />
-        </Route>
-        <Route path={'/offer/:id'} exact>
-          <Room
-            zoom = {MAP_ZOOM}
-            selectedPoint = {selectedPoint}
-            onListItemHover = {onListItemHover}
-          />
-        </Route>
-        <Route path={AppRoute.SIGN_IN} exact>
-          <Login />
-        </Route>
-        <PrivateRoute path={AppRoute.FAVORITES} exact render={() => (<Favorites />)}/>
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
+    <Switch>
+      <Route path={AppRoute.MAIN} exact>
+        <Main
+          offers={offers}
+          zoom={MAP_ZOOM}
+          selectedPoint={selectedPoint}
+          onListItemHover={onListItemHover}
+          cities={cities}
+        />
+      </Route>
+      <Route path={'/offer/:id'} exact>
+        <Room
+          zoom={MAP_ZOOM}
+          selectedPoint={selectedPoint}
+          onListItemHover={onListItemHover}
+        />
+      </Route>
+      <Route path={AppRoute.SIGN_IN} exact>
+        <Login />
+      </Route>
+      <PrivateRoute
+        path={AppRoute.FAVORITES}
+        exact
+        render={() => <Favorites />}
+      />
+      <Route>
+        <NotFound />
+      </Route>
+    </Switch>
   );
 }
 
@@ -76,5 +79,5 @@ const mapStateToProps = (state) => ({
   isDataLoaded: getLoadedDataStatus(state),
 });
 
-export {App};
+export { App };
 export default connect(mapStateToProps, null)(App);
