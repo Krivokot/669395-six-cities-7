@@ -7,3 +7,5 @@ export const getOfferReviews = (state) => state[NameSpace.DATA].reviews;
 export const getFavorites = (state) => state[NameSpace.DATA].favorites;
 export const getLoadedDataStatus = (state) => state[NameSpace.DATA].isDataLoaded;
 export const getDetailsLoadedStatus = (state) => state[NameSpace.DATA].isDetailsLoaded;
+export const getFavoritesLoadedStatus = (state) => state[NameSpace.DATA].isFavoritesLoaded;
+

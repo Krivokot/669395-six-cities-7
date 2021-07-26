@@ -11,6 +11,8 @@ function Map(props) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city, zoom);
 
+  console.log(points);
+
   const defaultCustomIcon = leaflet.icon({
     iconUrl: URL_MARKER_DEFAULT,
     iconSize: [30, 30],
@@ -32,10 +34,11 @@ function Map(props) {
             lng: point.location.longitude,
           },
           {
-            icon: (point.title === selectedPoint.title)
+            icon: (point.id === selectedPoint)
               ? currentCustomIcon
               : defaultCustomIcon,
-          })
+          },
+          )
           .addTo(map);
       });
     }
@@ -63,9 +66,7 @@ Map.propTypes = {
       }),
     }),
   ).isRequired,
-  selectedPoint: PropTypes.shape({
-    title: PropTypes.string,
-  }).isRequired,
+  selectedPoint: PropTypes.number,
   cardType: PropTypes.string.isRequired,
 };
 

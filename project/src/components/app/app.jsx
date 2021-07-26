@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Main from '../main/main';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
-import { AppRoute, MAP_ZOOM } from '../../const';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, MAP_ZOOM } from '../../const';
 import Login from '../login/login';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
@@ -28,8 +28,8 @@ function App(props) {
     return <LoadingScreen />;
   }
 
-  const onListItemHover = (listItemName) => {
-    const currentPoint = offers.find((offer) => offer.title === listItemName);
+  const onListItemHover = (listItemId) => {
+    const currentPoint = listItemId;
     setSelectedPoint(currentPoint);
   };
 
@@ -47,12 +47,10 @@ function App(props) {
       <Route path={'/offer/:id'} exact>
         <Room
           zoom={MAP_ZOOM}
-          selectedPoint={selectedPoint}
-          onListItemHover={onListItemHover}
         />
       </Route>
       <Route path={AppRoute.SIGN_IN} exact>
-        <Login />
+      {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to="/" /> : <Login />}
       </Route>
       <PrivateRoute
         path={AppRoute.FAVORITES}

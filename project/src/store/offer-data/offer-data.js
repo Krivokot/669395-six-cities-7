@@ -8,6 +8,7 @@ const initialState = {
   favorites: [],
   isDataLoaded: false,
   isDetailsLoaded: false,
+  isFavoritesLoaded: false,
 };
 
 const offerData = (state = initialState, action) => {
@@ -38,6 +39,7 @@ const offerData = (state = initialState, action) => {
       return {
         ...state,
         favorites: action.payload,
+        isFavoritesLoaded: true,
       };
     default:
       return state;

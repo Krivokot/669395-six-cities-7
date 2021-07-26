@@ -12,10 +12,10 @@ export const CardTypes = {
 };
 
 export const SortTypes = {
-  POPULAR: 'popular',
-  LOW_PRICE: 'lowPrice',
-  HIGH_PRICE: 'highPrice',
-  TOP_RATED: 'topRated',
+  POPULAR: 'Popular',
+  LOW_PRICE: 'Price: low to high',
+  HIGH_PRICE: 'Price: high to low',
+  TOP_RATED: 'Top rated first',
 };
 
 export const AuthorizationStatus = {

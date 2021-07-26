@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 
 function Review(props) {
   const {review} = props;
@@ -17,14 +18,14 @@ function Review(props) {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: '80vh'}}></span>
+            <span style={{width: (Math.round(review.rating)*20)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time">{review.date}</time>
+        <time className="reviews__time">{dayjs(review.date).format('MMMM YYYY')}</time>
       </div>
     </li>
   );

@@ -25,8 +25,6 @@ import { getCity } from '../../store/view-settings/selectors';
 import { getAuthStatus } from '../../store/user/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 
-//FIXME при переходе через урл, карта не меняется
-//FIXME случается, что подсвечивается selectedPoint
 //TODO сделать рэйтинг
 //TODO чистить редакс при переходе по страницам
 //TODO сделать переход на 404 в случае несуществующего оффера
@@ -38,10 +36,7 @@ function Room(props) {
     offer,
     nearby,
     reviews,
-    city,
     zoom,
-    selectedPoint,
-    onListItemHover,
     fetchOffer,
     fetchNearBy,
     fetchReviews,
@@ -55,6 +50,8 @@ function Room(props) {
     fetchOffer(id);
     fetchNearBy(id);
     fetchReviews(id);
+
+    scrollTo(0, 0);
   }, [id, fetchOffer, fetchNearBy, fetchReviews]);
 
   if (!isDetailsLoaded) {
@@ -69,7 +66,7 @@ function Room(props) {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {offer.images.map((image) => (
+              {offer.images.slice(0,6).map((image) => (
                 <RoomImages key={image} image={image} alt={offer.type} />
               ))}
             </div>
@@ -101,7 +98,7 @@ function Room(props) {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: 80 }}></span>
+                  <span style={{width: (Math.round(offer.rating)*25)}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">
@@ -167,10 +164,10 @@ function Room(props) {
             </div>
           </div>
           <Map
-            city={city}
+            city={offer.city}
             zoom={zoom}
-            points={nearby}
-            selectedPoint={selectedPoint}
+            points={nearby.concat(offer)}
+            selectedPoint={offer.id}
             cardType={CardTypes.ROOM}
           />
         </section>
@@ -180,12 +177,11 @@ function Room(props) {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {nearby.map((nearestOffer) => (
+              {nearby.slice(0,3).map((nearestOffer) => (
                 <CityCard
-                  key={`${nearestOffer.title}`}
+                  key={nearestOffer.id}
                   offer={nearestOffer}
                   cardType={CardTypes.ROOM}
-                  onListItemHover={onListItemHover}
                 />
               ))}
             </div>
@@ -199,10 +195,8 @@ function Room(props) {
 Room.propTypes = {
   offer: PropTypes.object.isRequired,
   reviews: PropTypes.array.isRequired,
-  city: PropTypes.object.isRequired,
   zoom: PropTypes.number.isRequired,
-  selectedPoint: PropTypes.object.isRequired,
-  onListItemHover: PropTypes.func.isRequired,
+  selectedPoint: PropTypes.number,
   nearby: PropTypes.array,
   fetchOffer: PropTypes.func,
   fetchNearBy: PropTypes.func,
@@ -216,7 +210,7 @@ const mapStateToProps = (state) => ({
   offer: getOfferDetails(state),
   authorizationStatus: getAuthStatus(state),
   nearby: getOfferNearby(state),
-  reviews: getOfferReviews(state),
+  reviews: getOfferReviews(state).slice(-10),
   isDetailsLoaded: getDetailsLoadedStatus(state),
 });
 

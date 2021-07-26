@@ -27,7 +27,7 @@ export const sortObjects = (type, items) => {
       return items.sort((a,b) => b.price - a.price);
     case SortTypes.TOP_RATED:
       return items.sort((a,b) => b.rating - a.rating);
-    default: //FIXME не работает popular
+    default:
       break;
   }
 };

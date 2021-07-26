@@ -5,14 +5,14 @@ import CityCard from '../card/city-card';
 import { AppRoute, CardTypes } from '../../const';
 
 function FavoritesItem(props) {
-  const { favorites } = props;
+  const { favorites, city } = props;
 
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <Link to={AppRoute.MAIN} className="locations__item-link">
-            <span>Cologne</span>
+            <span>{city}</span>
           </Link>
         </div>
       </div>

@@ -12,10 +12,7 @@ import { getOffers } from '../../store/offer-data/selectors';
 import { getCity, getSortType } from '../../store/view-settings/selectors';
 import MainEmpty from '../main-empty/main-empty';
 
-//FIXME запоминает только последний эмэил
-//FIXME падает на house among oilve
-//TODO сделать рэйтинг
-//TODO сортировка не исчезает при выборе
+//FIXME эмэил не обновляется
 
 function Main(props) {
   const {
@@ -48,7 +45,7 @@ function Main(props) {
   return (
     <div className="page page--gray page--main">
       <Header />
-      <main className="page__main page__main--index">
+      <main className={filteredOffers === null ? 'page__main page__main--index page__main--index-empty' : 'page__main page__main--index'}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -108,7 +105,7 @@ Main.propTypes = {
   //TODO proptypes перенести в функцию
   offers: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
-  selectedPoint: PropTypes.object.isRequired,
+  selectedPoint: PropTypes.number,
   onListItemHover: PropTypes.func.isRequired,
   activeCity: PropTypes.object,
   cities: PropTypes.array.isRequired,

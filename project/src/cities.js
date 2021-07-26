@@ -1,33 +1,45 @@
 const cities = [
   {
+    location: {
+      'latitude': 48.864716,
+      'longitude': 2.349014,
+    },
     'name': 'Paris',
-    'latitude': 48.864716,
-    'longitude': 2.349014,
   },
   {
+    location: {
+      'latitude': 50.935173,
+      'longitude': 6.953101,
+    },
     'name': 'Cologne',
-    'latitude': 50.935173,
-    'longitude': 6.953101,
   },
   {
+    location: {
+      'latitude': 50.85045,
+      'longitude': 4.34878,
+    },
     'name': 'Brussels',
-    'latitude': 50.85045,
-    'longitude': 4.34878,
   },
   {
+    location: {
+      'latitude': 52.38333,
+      'longitude': 4.9,
+    },
     'name': 'Amsterdam',
-    'latitude': 52.38333,
-    'longitude': 4.9,
   },
   {
+    location: {
+      'latitude': 53.551086,
+      'longitude': 9.993682,
+    },
     'name': 'Hamburg',
-    'latitude': 53.551086,
-    'longitude': 9.993682,
   },
   {
+    location: {
+      'latitude': 51.233334,
+      'longitude': 6.783333,
+    },
     'name': 'Dusseldorf',
-    'latitude': 51.233334,
-    'longitude': 6.783333,
   },
 ];
 

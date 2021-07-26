@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 function OffersList(props) {
   const {offers, onListItemHover, city} = props;
 
-  const listItemHoverHandler = (evt) => {
-    onListItemHover(evt.target.innerText);
+  const listItemHoverHandler = (el) => {
+    onListItemHover(el);
   };
 
   return (
@@ -17,7 +17,7 @@ function OffersList(props) {
           key={offer.id}
           offer={offer}
           cardType = {CardTypes.MAIN}
-          titleEnter = {listItemHoverHandler}
+          elementEnter = {listItemHoverHandler}
           city={city}
         />
       ))}
