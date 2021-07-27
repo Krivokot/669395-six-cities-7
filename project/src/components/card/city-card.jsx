@@ -14,7 +14,6 @@ import {
 import { connect } from 'react-redux';
 import { getAuthStatus } from '../../store/user/selectors';
 
-//FIXME сделать добавление в избранное для ROOM
 
 function CityCard(props) {
   const {

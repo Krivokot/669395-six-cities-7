@@ -7,6 +7,10 @@ import { AppRoute, CardTypes } from '../../const';
 function FavoritesItem(props) {
   const { favorites, city } = props;
 
+  if (favorites === null) {
+    return ('');
+  }
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">

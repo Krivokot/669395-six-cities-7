@@ -1,7 +1,7 @@
 import { React, useEffect } from 'react';
 import { useParams } from 'react-router';
 import Advantages from './advantages';
-import { CardTypes, AuthorizationStatus } from '../../const';
+import { CardTypes, AuthorizationStatus, FavoriteStatus, AppRoute } from '../../const';
 import CityCard from '../card/city-card';
 import Comments from '../comments/comments';
 import PropTypes from 'prop-types';
@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 import {
   fetchOfferDetails,
   fetchOfferNearby,
-  fetchReviewsList
+  fetchReviewsList,
+  deleteFromFavorites,
+  sendToFavorites
 } from '../../store/api-actions';
 import RoomImages from './room-images';
 import Header from '../header/header';
@@ -24,6 +26,7 @@ import {
 import { getCity } from '../../store/view-settings/selectors';
 import { getAuthStatus } from '../../store/user/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { Link } from 'react-router-dom';
 
 //TODO сделать рэйтинг
 //TODO чистить редакс при переходе по страницам
@@ -42,6 +45,8 @@ function Room(props) {
     fetchReviews,
     authorizationStatus,
     isDetailsLoaded,
+    handleFromBookmarks,
+    handleToBookmarks,
   } = props;
 
   const { id } = useParams();
@@ -66,7 +71,7 @@ function Room(props) {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {offer.images.slice(0,6).map((image) => (
+              {offer.images.slice(0, 6).map((image) => (
                 <RoomImages key={image} image={image} alt={offer.type} />
               ))}
             </div>
@@ -78,27 +83,54 @@ function Room(props) {
                   <span>Premium</span>
                 </div>
               ) : (
-                ''
+                ""
               )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{offer.title}</h1>
-                <button
-                  className="property__bookmark-button button"
-                  type="button"
-                >
-                  <svg
-                    className="property__bookmark-icon"
-                    width="31"
-                    height="33"
+                {authorizationStatus === AuthorizationStatus.NO_AUTH ? (
+                  <Link to={AppRoute.SIGN_IN}>
+                    <button
+                      className="property__bookmark-button button"
+                      type="button"
+                    >
+                      <svg
+                        className="property__bookmark-icon"
+                        width="31"
+                        height="33"
+                      >
+                        <use xlinkHref="#icon-bookmark"></use>
+                      </svg>
+                      <span className="visually-hidden">To bookmarks</span>
+                    </button>
+                  </Link>
+                ) : (
+                  <button
+                    className={
+                      offer.is_favorite
+                        ? "property__bookmark-button--active button"
+                        : "property__bookmark-button button"
+                    }
+                    type="button"
+                    onClick={() => {
+                      offer.is_favorite && CardTypes.FAVORITES
+                        ? handleFromBookmarks(FavoriteStatus.FALSE, offer.id)
+                        : handleToBookmarks(FavoriteStatus.TRUE, offer.id);
+                    }}
                   >
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                    <svg
+                      className="property__bookmark-icon"
+                      width="31"
+                      height="33"
+                    >
+                      <use xlinkHref="#icon-bookmark"></use>
+                    </svg>
+                    <span className="visually-hidden">To bookmarks</span>
+                  </button>
+                )}
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: (Math.round(offer.rating)*25)}}></span>
+                  <span style={{ width: Math.round(offer.rating) * 25 }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">
@@ -142,7 +174,7 @@ function Room(props) {
                   </div>
                   <span className="property__user-name">{offer.host.name}</span>
                   <span className="property__user-status">
-                    {offer.host.is_pro ? 'Pro' : ''}
+                    {offer.host.is_pro ? "Pro" : ""}
                   </span>
                 </div>
                 <div className="property__description">
@@ -151,14 +183,14 @@ function Room(props) {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews &middot;{' '}
+                  Reviews &middot;{" "}
                   <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ReviewsList reviews={reviews} />
                 {authorizationStatus === AuthorizationStatus.AUTH ? (
                   <Comments id={id} />
                 ) : (
-                  ''
+                  ""
                 )}
               </section>
             </div>
@@ -177,7 +209,7 @@ function Room(props) {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {nearby.slice(0,3).map((nearestOffer) => (
+              {nearby.slice(0, 3).map((nearestOffer) => (
                 <CityCard
                   key={nearestOffer.id}
                   offer={nearestOffer}
@@ -223,6 +255,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchReviews(id) {
     dispatch(fetchReviewsList(id));
+  },
+  handleToBookmarks(status, id) {
+    dispatch(sendToFavorites(status, id));
+  },
+  handleFromBookmarks(status, id) {
+    dispatch(deleteFromFavorites(status, id));
   },
 });
 
