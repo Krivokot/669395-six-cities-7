@@ -23,7 +23,7 @@ function Favorites(props) {
   return (
     <div className="page">
       <Header />
-      {favorites === null ? (
+      {favorites.length === 0 ? (
       <FavoritesEmpty />
       ) : (
         <main className="page__main page__main--favorites">

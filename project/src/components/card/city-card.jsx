@@ -43,7 +43,7 @@ function CityCard(props) {
           : 'favorites__card place-card'
       }
     >
-      {offer.is_premium && (cardType === CardTypes.MAIN || cardType === CardTypes.ROOM) ? (
+      {offer.is_premium ? (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
@@ -63,13 +63,13 @@ function CityCard(props) {
           <img
             className="place-card__image"
             src={offer.preview_image}
-            width="260"
-            height="200"
+            width={cardType === CardTypes.FAVORITES ? '150' : '260'}
+            height={cardType === CardTypes.FAVORITES ? '110' : '200'}
             alt="Place"
           />
         </a>
       </div>
-      <div className="place-card__info">
+      <div className={cardType === CardTypes.FAVORITES ? 'favorites__card-info place-card__info' : 'place-card__info'}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{offer.price}</b>

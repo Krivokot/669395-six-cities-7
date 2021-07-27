@@ -7,15 +7,16 @@ import { filterObjects } from '../../util';
 function FavoritesList(props) {
 
   const {favorites} = props;
-
+  
   return (
     <ul className="favorites__list">
-      <FavoritesItem favorites = {filterObjects(favorites, Cities.PARIS)} city = {Cities.PARIS}  />
-      <FavoritesItem favorites = {filterObjects(favorites, Cities.COLOGNE)} city = {Cities.COLOGNE}  />
-      <FavoritesItem favorites = {filterObjects(favorites, Cities.BRUSSELS)} city = {Cities.BRUSSELS}  />
-      <FavoritesItem favorites = {filterObjects(favorites, Cities.AMSTERDAM)} city = {Cities.AMSTERDAM}  />
-      <FavoritesItem favorites = {filterObjects(favorites, Cities.HAMBURG)} city = {Cities.HAMBURG}  />
-      <FavoritesItem favorites = {filterObjects(favorites, Cities.DUSSELDORF)} city = {Cities.DUSSELDORF}  />
+      {Object.values(Cities).map((cityName) => {
+        const filteredFavorites = filterObjects(favorites, cityName);
+        if (filteredFavorites.length > 0) {
+         return (<FavoritesItem favorites = {filteredFavorites} city = {cityName}/>)
+        }
+      })
+      }
     </ul>
   );
 }
