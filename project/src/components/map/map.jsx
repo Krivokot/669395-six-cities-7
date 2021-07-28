@@ -10,7 +10,7 @@ function Map(props) {
   const {city, zoom, points, selectedPoint, cardType} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city, zoom);
-  
+
   const defaultCustomIcon = leaflet.icon({
     iconUrl: URL_MARKER_DEFAULT,
     iconSize: [30, 30],

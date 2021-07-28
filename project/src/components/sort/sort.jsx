@@ -94,6 +94,7 @@ function Sort(props) {
 
 Sort.propTypes = {
   onSortOffers: PropTypes.func.isRequired,
+  sortType: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({

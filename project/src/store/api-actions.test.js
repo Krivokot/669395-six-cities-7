@@ -14,7 +14,7 @@ import {
   loadAuthInfo,
   login
 } from './api-actions';
-import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AuthorizationStatus } from '../const';
 
 let api = null;
 

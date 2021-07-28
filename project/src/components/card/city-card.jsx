@@ -15,6 +15,9 @@ import { connect } from 'react-redux';
 import { getAuthStatus } from '../../store/user/selectors';
 
 
+const RATING_CARD_CONVERTER = 15;
+
+
 function CityCard(props) {
   const {
     offer,
@@ -29,19 +32,38 @@ function CityCard(props) {
     if (cardType === CardTypes.MAIN) {
       elementEnter(offer.id);
     }
-    return;
-  }
+  };
+
+  const changeImagesWrapperClass = () => {
+    switch (cardType) {
+      case CardTypes.MAIN:
+        return ('cities__image-wrapper place-card__image-wrapper');
+      case CardTypes.ROOM:
+        return ('near-places__image-wrapper place-card__image-wrapper');
+      case CardTypes.FAVORITES:
+        return ('favorites__image-wrapper place-card__image-wrapper');
+      default:
+        break;
+    }
+  };
+
+  const changeArticleClass = () => {
+    switch (cardType) {
+      case CardTypes.MAIN:
+        return ('cities__place-card place-card');
+      case CardTypes.ROOM:
+        return ('near-places__card place-card');
+      case CardTypes.FAVORITES:
+        return ('favorites__card place-card');
+      default:
+        break;
+    }
+  };
 
   return (
     <article
       onMouseEnter={mouseEvent}
-      className={
-        cardType === CardTypes.MAIN
-          ? 'cities__place-card place-card'
-          : cardType === CardTypes.ROOM 
-          ? 'near-places__card place-card' 
-          : 'favorites__card place-card'
-      }
+      className={changeArticleClass()}
     >
       {offer.is_premium ? (
         <div className="place-card__mark">
@@ -51,23 +73,15 @@ function CityCard(props) {
         ''
       )}
       <div
-        className={
-          cardType === CardTypes.MAIN
-            ? 'cities__image-wrapper place-card__image-wrapper'
-            : cardType === CardTypes.ROOM
-            ? 'near-places__image-wrapper place-card__image-wrapper'
-            : 'favorites__image-wrapper place-card__image-wrapper'
-        }
+        className={changeImagesWrapperClass()}
       >
-        <a>
-          <img
-            className="place-card__image"
-            src={offer.preview_image}
-            width={cardType === CardTypes.FAVORITES ? '150' : '260'}
-            height={cardType === CardTypes.FAVORITES ? '110' : '200'}
-            alt="Place"
-          />
-        </a>
+        <img
+          className="place-card__image"
+          src={offer.preview_image}
+          width={cardType === CardTypes.FAVORITES ? '150' : '260'}
+          height={cardType === CardTypes.FAVORITES ? '110' : '200'}
+          alt="Place"
+        />
       </div>
       <div className={cardType === CardTypes.FAVORITES ? 'favorites__card-info place-card__info' : 'place-card__info'}>
         <div className="place-card__price-wrapper">
@@ -114,7 +128,7 @@ function CityCard(props) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: (Math.round(offer.rating)*15)}}></span>
+            <span style={{width: (Math.round(offer.rating)*RATING_CARD_CONVERTER)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

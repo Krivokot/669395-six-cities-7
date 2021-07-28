@@ -20,7 +20,7 @@ import { getAuthStatus } from '../../store/user/selectors';
 function App(props) {
   const { offers, cities } = props;
 
-  const [selectedPoint, setSelectedPoint] = useState({});
+  const [selectedPoint, setSelectedPoint] = useState(null);
 
   const { authorizationStatus, isDataLoaded } = props;
 
@@ -50,7 +50,7 @@ function App(props) {
         />
       </Route>
       <Route path={AppRoute.SIGN_IN} exact>
-      {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to="/" /> : <Login />}
+        {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to="/" /> : <Login />}
       </Route>
       <PrivateRoute
         path={AppRoute.FAVORITES}

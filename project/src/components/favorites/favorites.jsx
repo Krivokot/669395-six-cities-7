@@ -24,7 +24,7 @@ function Favorites(props) {
     <div className="page">
       <Header />
       {favorites.length === 0 ? (
-      <FavoritesEmpty />
+        <FavoritesEmpty />
       ) : (
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
@@ -46,6 +46,7 @@ function Favorites(props) {
 Favorites.propTypes = {
   favorites: PropTypes.array,
   fetchFavorites: PropTypes.func,
+  isFavoritesLoaded: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

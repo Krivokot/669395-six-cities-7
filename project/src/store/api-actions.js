@@ -42,6 +42,7 @@ export const sendToFavorites = (status, id) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVORITES}/${id}/${status}`)
     .then(() => dispatch(fetchOffersList()))
     .then(() => dispatch(fetchOfferDetails(id)))
+    .then(() => dispatch(fetchOfferNearby(id)))
 );
 
 export const deleteFromFavorites = (status, id) => (dispatch, _getState, api) => (
@@ -49,6 +50,7 @@ export const deleteFromFavorites = (status, id) => (dispatch, _getState, api) =>
     .then(() => dispatch(fetchOffersList()))
     .then(() => dispatch(fetchFavoritesOffers()))
     .then(() => dispatch(fetchOfferDetails(id)))
+    .then(() => dispatch(fetchOfferNearby(id)))
 );
 
 export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (

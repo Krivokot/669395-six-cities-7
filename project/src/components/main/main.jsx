@@ -12,7 +12,6 @@ import { getOffers } from '../../store/offer-data/selectors';
 import { getCity, getSortType } from '../../store/view-settings/selectors';
 import MainEmpty from '../main-empty/main-empty';
 
-//FIXME эмэил не обновляется
 
 function Main(props) {
   const {
@@ -51,7 +50,7 @@ function Main(props) {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               {cities.map((city) => (
-                <li className="locations__item">
+                <li key={city.name} className="locations__item">
                   <a
                     className={
                       activeCity.name === city.name
@@ -102,7 +101,6 @@ function Main(props) {
 }
 
 Main.propTypes = {
-  //TODO proptypes перенести в функцию
   offers: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
   selectedPoint: PropTypes.number,

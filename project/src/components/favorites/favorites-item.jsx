@@ -31,6 +31,7 @@ function FavoritesItem(props) {
 
 FavoritesItem.propTypes = {
   favorites: PropTypes.array,
+  city: PropTypes.string,
 };
 
 export default FavoritesItem;

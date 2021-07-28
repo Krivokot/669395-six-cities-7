@@ -28,11 +28,9 @@ import { getAuthStatus } from '../../store/user/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { Link } from 'react-router-dom';
 
-//TODO сделать рэйтинг
-//TODO чистить редакс при переходе по страницам
+const RATING_ROOM_CONVERTER = 23;
+
 //TODO сделать переход на 404 в случае несуществующего оффера
-//TODO добавить обработки ошибок
-//FIXME комменты чистятся при сайнауте
 
 function Room(props) {
   const {
@@ -56,7 +54,7 @@ function Room(props) {
     fetchNearBy(id);
     fetchReviews(id);
 
-    scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [id, fetchOffer, fetchNearBy, fetchReviews]);
 
   if (!isDetailsLoaded) {
@@ -83,9 +81,9 @@ function Room(props) {
                   <span>Premium</span>
                 </div>
               ) : (
-                ""
+                ''
               )}
-              <div className="property__name-wrapper">
+              <div className='property__name-wrapper'>
                 <h1 className="property__name">{offer.title}</h1>
                 {authorizationStatus === AuthorizationStatus.NO_AUTH ? (
                   <Link to={AppRoute.SIGN_IN}>
@@ -107,8 +105,8 @@ function Room(props) {
                   <button
                     className={
                       offer.is_favorite
-                        ? "property__bookmark-button--active button"
-                        : "property__bookmark-button button"
+                        ? 'property__bookmark-button--active button'
+                        : 'property__bookmark-button button'
                     }
                     type="button"
                     onClick={() => {
@@ -130,7 +128,7 @@ function Room(props) {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: Math.round(offer.rating) * 25 }}></span>
+                  <span style={{ width: Math.ceil(offer.rating) * RATING_ROOM_CONVERTER }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">
@@ -174,7 +172,7 @@ function Room(props) {
                   </div>
                   <span className="property__user-name">{offer.host.name}</span>
                   <span className="property__user-status">
-                    {offer.host.is_pro ? "Pro" : ""}
+                    {offer.host.is_pro ? 'Pro' : ''}
                   </span>
                 </div>
                 <div className="property__description">
@@ -183,14 +181,14 @@ function Room(props) {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews &middot;{" "}
+                  Reviews &middot;{' '}
                   <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ReviewsList reviews={reviews} />
                 {authorizationStatus === AuthorizationStatus.AUTH ? (
                   <Comments id={id} />
                 ) : (
-                  ""
+                  ''
                 )}
               </section>
             </div>
@@ -225,16 +223,17 @@ function Room(props) {
 }
 
 Room.propTypes = {
-  offer: PropTypes.object.isRequired,
+  offer: PropTypes.object,
   reviews: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
-  selectedPoint: PropTypes.number,
   nearby: PropTypes.array,
   fetchOffer: PropTypes.func,
   fetchNearBy: PropTypes.func,
   fetchReviews: PropTypes.func,
   authorizationStatus: PropTypes.string.isRequired,
   isDetailsLoaded: PropTypes.bool.isRequired,
+  handleFromBookmarks: PropTypes.func,
+  handleToBookmarks: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

@@ -11,12 +11,12 @@ function Comments({onSubmit}) {
   const commentRef = useRef();
   const submitRef = useRef();
 
-  const [commentValue, getCommentValueState] = useState(0);
+  const [commentValue, setCommentValueState] = useState(0);
   const [star, setStarValue] = useState(0);
 
   const ratingHandler = (evt) => {
-    setStarValue(evt.target.value);
-  }
+    setStarValue(Number(evt.target.value));
+  };
 
   const handleSubmitComment = (evt) => {
     evt.preventDefault();
@@ -70,13 +70,13 @@ function Comments({onSubmit}) {
           </svg>
         </label>
       </div>
-      <textarea ref={commentRef} className="reviews__textarea form__textarea" onChange={() => getCommentValueState(commentValue+1)} id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" minLength="50" maxLength="300">
+      <textarea ref={commentRef} className="reviews__textarea form__textarea" onChange={(evt) => setCommentValueState(evt.target.value.length)} id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" minLength="50" maxLength="300">
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" ref={submitRef} type="submit" disabled={commentValue < 50  ? 'true' : 'false'}>Submit</button>
+        <button className="reviews__submit form__submit button" ref={submitRef} type="submit" disabled={commentValue < 50 || star === 0}>Submit</button>
       </div>
     </form>
   );
@@ -89,16 +89,15 @@ Comments.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(commentData, id, commentRef, submitRef) {
     dispatch(sendComments(commentData, id))
-    .then(() => {
-      commentRef.current.disabled = false;
-      submitRef.current.disabled = false;
-      commentRef.current.value = '';
-    })
-    .catch(() => {
-      commentRef.current.disabled = false;
-      submitRef.current.disabled = false;
-    })
-    ;
+      .then(() => {
+        commentRef.current.disabled = false;
+        submitRef.current.disabled = false;
+        commentRef.current.value = '';
+      })
+      .catch(() => {
+        commentRef.current.disabled = false;
+        submitRef.current.disabled = false;
+      });
   },
 });
 
