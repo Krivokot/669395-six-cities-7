@@ -45,7 +45,6 @@ function Map(props) {
   return (
     <section
       className={cardType === CardTypes.MAIN ? 'cities__map map' : 'property__map map'}
-      // style={{height: '100vh'}}
       ref={mapRef}
     >
 
