@@ -65,7 +65,7 @@ function App(props) {
 }
 
 App.propTypes = {
-  offers: PropTypes.array.isRequired,
+  offers: PropTypes.array,
   cities: PropTypes.array.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,

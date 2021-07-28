@@ -30,8 +30,6 @@ import { Link } from 'react-router-dom';
 
 const RATING_ROOM_CONVERTER = 23;
 
-//TODO сделать переход на 404 в случае несуществующего оффера
-
 function Room(props) {
   const {
     offer,

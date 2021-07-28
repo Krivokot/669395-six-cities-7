@@ -191,7 +191,7 @@ describe('Async operations', () => {
 
     return favoriteSender(dispatch, () => { }, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(3);
       });
   });
 
@@ -208,7 +208,7 @@ describe('Async operations', () => {
 
     return favoriteDeleter(dispatch, () => { }, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(dispatch).toHaveBeenCalledTimes(4);
       });
   });
 

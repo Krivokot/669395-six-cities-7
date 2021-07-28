@@ -49,7 +49,7 @@ const nearby = [
 describe('Reducer: offerData', () => {
   it('without additional parameters should return initial state', () => {
     expect(offerData(undefined, {}))
-      .toEqual({ offers: [], reviews: [], details: [], favorites: [], nearby: [], isDataLoaded: false, isDetailsLoaded: false });
+      .toEqual({ offers: [], reviews: [], details: [], favorites: [], nearby: [], isDataLoaded: false, isDetailsLoaded: false, isFavoritesLoaded: false, });
   });
 
   it('should update offers by load offers', () => {
@@ -93,7 +93,7 @@ describe('Reducer: offerData', () => {
     };
 
     expect(offerData(state, loadFavorites))
-      .toEqual({ favorites});
+      .toEqual({ favorites, isFavoritesLoaded: true});
   });
 
   it('should update nearby by load nearby', () => {
