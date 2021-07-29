@@ -15,6 +15,7 @@ function FavoritesList(props) {
         if (filteredFavorites.length > 0) {
           return (<FavoritesItem key={cityName[id]} favorites = {filteredFavorites} city = {cityName}/>);
         }
+        return null;
       })}
     </ul>
   );
