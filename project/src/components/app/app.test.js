@@ -4,9 +4,19 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, AppRoute } from '../../const';
 import cities from '../../cities';
 import App from './app';
+import {
+  testAuthInfo, 
+  testSortType, 
+  testReviews, 
+  testOffers, 
+  testNearBy, 
+  testFavorites, 
+  testDetails, 
+  testCity
+} from '../../test-mocks/test-mocks';
 
 let history = null;
 let store = null;
@@ -18,8 +28,24 @@ describe('Application Routing', () => {
 
     const createFakeStore = configureStore({});
     store = createFakeStore({
-      USER: { authorizationStatus: AuthorizationStatus.AUTH},
-      DATA: { isDataLoaded: true },
+      USER: { 
+        authorizationStatus: AuthorizationStatus.AUTH, 
+        authInfo: testAuthInfo
+      },
+      DATA: { 
+        offers: testOffers, 
+        details: testDetails, 
+        nearby: testNearBy, 
+        favorites: testFavorites, 
+        reviews: testReviews, 
+        isDetailsLoaded: true, 
+        isFavoritesLoaded: true, 
+        isDataLoaded: true 
+      },
+      VIEW: { 
+        activeCity: testCity,
+        sortType: testSortType,
+      },
     });
 
     fakeApp = (
@@ -29,6 +55,13 @@ describe('Application Routing', () => {
         </Router>
       </Provider>
     );
+  });
+
+  it('redirects to MAIN when user navigate to "/"', () => {
+    render(fakeApp);
+
+    const mainElement = screen.getByRole('main');
+    expect(mainElement).toBeInTheDocument();
   });
 
   it('should render "NotFoundScreen" when user navigate to non-existent route', () => {
